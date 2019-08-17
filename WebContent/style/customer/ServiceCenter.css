@@ -1,0 +1,77 @@
+@charset "UTF-8";
+* { padding: 0; margin:0; color: #666;}
+
+a{
+    text-decoration: none;
+    color: #222;
+}
+
+button { cursor: pointer;}
+
+.table_group hr {
+  height: 1px;
+  background-color: #56A902;
+  border: none;
+}
+#outer{
+        width: 800px; 
+}
+/* 검색 버튼 박스*/
+.board_top{
+    position: relative;
+}
+.board_top #searchArea{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+} 
+.board_top #searchArea > div { border:1px solid #84bd00; height:30px; box-sizing: border-box; overflow: hidden;}
+
+/* 텝 버튼 */
+.clearfix:after { content:""; clear:both; display:block;}
+.tab_btn { margin-bottom: 20px;}
+.tab_btn > div { float:left;}
+.tab_btn button{ background-color: #fff; color: #333; border: 1px solid #ddd; height: 45px; line-height:45px; width: 100px; }
+.tab_btn button.on { background-color: #84bd00; color:#fff; border: 1px solid #84bd00; transition: all 0.5s;}
+
+/* FAQ */
+#FAQ_List_outer{ width: 800px; height:800px; border-bottom:1px solid #56A902; }
+#FAQ_listArea{ text-align: center; border-collapse: collapse; width:100%;}
+#FAQ_List_tableArea { width:700px; height:650px; margin-left:auto; margin-right:auto; border-bottom:2px solid #56A902; }
+#FAQ_List_tableArea hr{ border-bottom:1px solid #56A902; }
+#FAQ_List_tableArea td{ border-bottom:1px solid #56A902; height: 30px; }
+.FAQ_List_title{ font-size: 13px; border-bottom:2px solid #56A902; height: 30px; text-align: center; }
+
+/* 문의하기 */
+#QNA_outer{ width: 800px; height:800px; border-bottom:2px solid #56A902; box-sizing: border-box; position: absolute; padding: 10px;}
+#QNA_listArea{ border-collapse: collapse; }
+#QNA_tableArea{ width:700px; height:750px; margin-left:auto; margin-right:auto; }
+#QnaType{text-align: left;}
+#QNA_listArea th{ text-align:center; border-top: 3px solid #333; padding:10px; border-bottom:1px solid #bbb; background-color: #cff09e;}
+.QNA_align{ height: 30px; text-align:center; }
+.wrap{ width: 680px; height:400px; overflow:auto; }
+.input_width{ width: 600px; border: 1px solid gainsboro; height: 25px; }
+ #text_id{ width: 700px; height: 400px; border: 1px solid gainsboro; }
+
+ /* 이용약관 */
+*{ text-decoration: none; color: #333; margin:0px; padding:0px;}
+#terms_outer{ width: 800px; height:800px; box-sizing: border-box; position: absolute; padding: 10px; border-bottom:2px solid #56A902;}
+.terms_table{ width: 100%; border-collapse: collapse; }
+#terms_tableArea{ width:100%; min-height:600px; box-sizing: border-box; }
+.terms_table th{ border-top: 3px solid #333; padding:10px; background-color: #cff09e; text-align:center}
+.terms_table tr{ width: 700px; }
+.terms_table td{ padding: 10px; width: 350px; border-bottom:1px solid #bbb; border-top:1px solid #bbb; font-size: 13px; }
+.terms_table td:hover{ background-color: #cff09e; }
+.content_wrap{ margin-top: 30px; width: 100%; height:500px; overflow:auto; background-color:white; }
+.content_wrap p, .content_wrap h4{ padding: 10px; }
+
+/* 공지사항 */
+#noticeList_outer{ width: 800px; height:800px; border-bottom:2px solid #56A902; }
+#noticeList_listArea{ text-align: center; border-collapse: collapse; }
+#noticeList_tableArea { width:700px; height:650px; margin-left:auto; margin-right:auto; border-bottom:2px solid #56A902;}
+#noticeList_listArea th{ border-bottom:2px solid #56A902; height: 50px; }
+#noticeList_listArea td{ border-bottom:1px solid #56A902; height: 30px; }
+.wrap{ width: 680px; height:400px; verflow:auto; text-align: left;}
+.comment_btn{ width: 100px; height: 40px; }
+.ht1{ height: 100%; }
+.searchArea{ height: 30px; }
