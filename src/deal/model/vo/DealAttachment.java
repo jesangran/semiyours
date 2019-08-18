@@ -47,6 +47,13 @@ public class DealAttachment {
 		this.refDealNo = refDealNo;
 	}
 
+	public DealAttachment(String daOrigin, String daChange) {
+		super();
+		this.daOrigin = daOrigin;
+		this.daChange = daChange;
+	}
+
+
 	public int getDaNo() {
 		return daNo;
 	}

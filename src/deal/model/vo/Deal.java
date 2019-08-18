@@ -19,34 +19,15 @@ public class Deal {
 	private int dealType;
 	private int viewCount;
 	private int rType;
+	private String dealerGrade;
 	public Deal() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Deal(int dealNo, String dealWriter, String dealTitle, String dealContent, Timestamp dealEnrollDate,
-			int dealCount, int dealStatus, Timestamp dealModifyDate, String dept1, String dept2, char deleteYN,
-			String dealLocal, int price, int dealType, int viewCount,int rType) {
-		super();
-		this.dealNo = dealNo;
-		this.dealWriter = dealWriter;
-		this.dealTitle = dealTitle;
-		this.dealContent = dealContent;
-		this.dealEnrollDate = dealEnrollDate;
-		this.dealCount = dealCount;
-		this.dealStatus = dealStatus;
-		this.dealModifyDate = dealModifyDate;
-		this.dept1 = dept1;
-		this.dept2 = dept2;
-		this.deleteYN = deleteYN;
-		this.dealLocal = dealLocal;
-		this.price = price;
-		this.dealType = dealType;
-		this.viewCount =viewCount;
-		this.rType = rType;
-	}
 	
 	public Deal(int dealNo, String dealWriter, String dealTitle, String dealContent, Timestamp dealEnrollDate,
-			int dealCount, int dealStatus, String dept1, String dept2, String dealLocal, int price, int dealType,int viewCount,int rType) {
+			int dealCount, int dealStatus, String dept1, String dept2, String dealLocal, 
+			int price, int dealType,int viewCount,int rType,String dealerGrade) {
 		super();
 		this.dealNo = dealNo;
 		this.dealWriter = dealWriter;
@@ -62,26 +43,23 @@ public class Deal {
 		this.dealType = dealType;
 		this.viewCount =viewCount;
 		this.rType = rType;
+		this.dealerGrade=dealerGrade;
 	}
 	
-	public int getrType() {
-		return rType;
+	public Deal(int dealNo, String dealTitle, String dealContent, int dealCount,
+			String dept1, String dept2, String dealLocal, int price, int dealType) {
+		super();
+		this.dealNo = dealNo;
+		this.dealTitle = dealTitle;
+		this.dealContent = dealContent;
+		this.dealCount = dealCount;
+		this.dept1 = dept1;
+		this.dept2 = dept2;
+		this.dealLocal = dealLocal;
+		this.price = price;
+		this.dealType = dealType;
 	}
-	public void setrType(int rType) {
-		this.rType = rType;
-	}
-	public String getDealWriter() {
-		return dealWriter;
-	}
-	public void setDealWriter(String dealWriter) {
-		this.dealWriter = dealWriter;
-	}
-	public int getViewCount() {
-		return viewCount;
-	}
-	public void setViewCount(int viewCount) {
-		this.viewCount = viewCount;
-	}
+
 	public Deal(String dealWriter, String dealTitle, String dealContent, int dealCount, String dept1, String dept2,
 			String dealLocal, int price, int dealType) {
 		super();
@@ -105,6 +83,25 @@ public class Deal {
 		this.price = price;
 		this.dealType = dealType;
 	}
+	public int getrType() {
+		return rType;
+	}
+	public void setrType(int rType) {
+		this.rType = rType;
+	}
+	public String getDealWriter() {
+		return dealWriter;
+	}
+	public void setDealWriter(String dealWriter) {
+		this.dealWriter = dealWriter;
+	}
+	public int getViewCount() {
+		return viewCount;
+	}
+	public void setViewCount(int viewCount) {
+		this.viewCount = viewCount;
+	}
+	
 	public int getDealNo() {
 		return dealNo;
 	}
@@ -189,13 +186,22 @@ public class Deal {
 	public void setDealType(int dealType) {
 		this.dealType = dealType;
 	}
+
+	public String getDealerGrade() {
+		return dealerGrade;
+	}
+
+	public void setDealerGrade(String dealerGrade) {
+		this.dealerGrade = dealerGrade;
+	}
+
 	@Override
 	public String toString() {
 		return "Deal [dealNo=" + dealNo + ", dealWriter=" + dealWriter + ", dealTitle=" + dealTitle + ", dealContent="
 				+ dealContent + ", dealEnrollDate=" + dealEnrollDate + ", dealCount=" + dealCount + ", dealStatus="
 				+ dealStatus + ", dealModifyDate=" + dealModifyDate + ", dept1=" + dept1 + ", dept2=" + dept2
 				+ ", deleteYN=" + deleteYN + ", dealLocal=" + dealLocal + ", price=" + price + ", dealType=" + dealType
-				+ ", viewCount=" + viewCount + ", rType=" + rType + "]";
+				+ ", viewCount=" + viewCount + ", rType=" + rType + ", dealerGrade=" + dealerGrade + "]";
 	}
 	
 	

@@ -9,8 +9,7 @@
 	footer{
 
 		clear:both;
-
-		width:1280px;
+		 width:1280px; 
 		height:100px;
 		margin-bottom:0;
 		background:#ccffcc;

@@ -73,20 +73,14 @@ body {
 					<%} %>
 					<button class="form-button" type="button" onclick="goPopup()" >주소 검색</button>
 					<br> <label>상세 주소</label><br> 
-					<%if(loginUser.getAddress2()!=null){ %>
 					<input type=text class="form-input addressDetail" id="addrDetail" name="addrDetail" value="<%=loginUser.getAddress2()%>" >
 					
-					<%}else{%>
-					<input type=text class="form-input addressDetail" id="addrDetail" name="addrDetail" value="" >	
-					<%} %>
 				</div>
 				<div class="form-group">
 					<label>메신저 아이디</label><br> 
-					<%if(loginUser.getAddress2()!=null){%>
+					
 					<input type=text id="snsId" value="<%=loginUser.getSnsId()%>" class="form-input messengerId" name="snsId">
-					<%}else{ %>
-						<input type=text id="snsId" value="" class="form-input messengerId" name="snsId">
-					<%} %>
+			
 				</div>
 				<input type="hidden" name="uno" value="<%=loginUser.getUserNo()%>">
 				<div class="form-group btns">
