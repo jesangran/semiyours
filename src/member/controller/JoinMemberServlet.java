@@ -30,7 +30,7 @@ public class JoinMemberServlet extends HttpServlet {
 		String page="";
 		RequestDispatcher view =null;
 		if(result>0) {
-			page="index.jsp";
+			page="select.de";
 			request.setAttribute("msg", "회원가입이 완료되었습니다.");
 			view=request.getRequestDispatcher(page);
 		}else {

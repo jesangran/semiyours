@@ -31,10 +31,8 @@ int dealCount = (Integer)request.getAttribute("dealCount");
 
 	width: 1280px;
 	scroll-behavior:smooth;
-	
 	align-content: center;
 	clear: both;
-	background-color:
 	margin:0;
 	-webkit-overflow-style:none;
 }
@@ -44,7 +42,6 @@ int dealCount = (Integer)request.getAttribute("dealCount");
 
 
 #listFrame {
-
 	margin:20px auto;
 	height: 100%;
 	width: 1040px;
@@ -57,42 +54,36 @@ int dealCount = (Integer)request.getAttribute("dealCount");
 	padding:0;
 	border:2px solid lightgrey;
 	position :relative;
-
 }
 .salImg {
 	width: 100%;
 	height:100%;
-
-	
 }
 
 ul {
 	list-style: none;
 	margin:0 ;
-	
 	padding: 0;
 }
-
 .listSale li {
 	float: left;
 	margin: 0;
 	padding: 0;
 	top:10px;
-		
 }
-
 .listFooter {
 	width: 250px;
 	height: 70px;
-
 	top:0;
 	margin: 0;
-	
-}
-.localSel{
-	cursor:pointer;
+	font-size:20px;
+	overflow: hidden; 
+	white-space: nowrap;
+	text-overflow:ellipsis;
+	 
 }
 
+.localSel{cursor:pointer;}
 
 /* -----------------------지역선택--------------------------- */
 
@@ -106,88 +97,44 @@ ul {
             }
 
             .highList{
-            /* background: rgb(109,109,109); */
              width:1280px;
             height:100%;
             list-style:none;
             margin-left:139px;
             padding:0;
-     
-      
             }
-
-           
 			.localSel{
 				float:left;
-	            padding:0px;
-	            width:150px;
-	           
+	            display: inline-block;
+	            width:200px;
+	            height: 50px;
 			}
-            .menubar li a{
-            /* background: rgb(109,109,109); */
-            color:darkgreen;
-            display:block;
-            font-weight:normal;
-            line-height:50px;
-            margin:0px;
-        
-            text-align:center;
-            text-decoration:none;
-            }
+            
 			
-            .menubar li a:hover, .menubar ul li:hover a{
-            /* border: 1px solid darkgreen; */
-            /* color: navy; */
-            text-decoration:none;
-            }
+           
 
             .localList{
-           
             background: whitesmoke;
             display:none; /* 평상시에는 드랍메뉴가 안보이게 하기 */
             width:700px;
             opacity: 0.8;
             position: absolute;
-            
-
             }
 
-            .menubar li:hover ul{
-            display: inline; /* 마우스 커서 올리면 드랍메뉴 보이게 하기 */
-            }
+            .menubar li:hover ul{display: inline; /* 마우스 커서 올리면 드랍메뉴 보이게 하기 */}
 
             .menubar li li {
-            /* background: rgb(109,109,109); */
             display: inline;
             float:none;
             margin:0px;
             padding:0px;
-            /* width:200px; */
-
             }
 
-            .menubar li:hover li a{
-            background:none;
-            }
+            
 
-            .menubar li ul a{
-            display: inline;
-            /* height: 50px; */
-            color: black;
-            font-size:12px;
-            font-style:normal;
-            margin:0px;
-            padding:0px 10px 0px 15px;
-          
-            }
-
-         .menubar li ul li:hover a{
-            /* background: rgb(71,71,71); */
-            border:0px;
-             /* color:navy; */
-            text-decoration:none;
            
-          }
+
+         
 		
 		.dealStatus{
 			position: absolute;
@@ -199,16 +146,9 @@ ul {
 			height: 25px;
 			color:white;
 		}
-		.soldout{
-			background: red;
-		}
-		.selling{
-			background: green;
-		}
-		.dealing{
-			background: orange;
-		}
-		
+		.soldout{background: red;}
+		.selling{background: green;}
+		.dealing{background: orange;}
 		#end{clear:both;}
 		
 </style>
@@ -222,7 +162,7 @@ ul {
                 	<% for(Local l : lList){%>
                     <li >
                     <span class="locals"><%=l.getlName() %></span>
-                  	 <span class="fullname"><%=l.getFullName()%></span>
+                  	 <input type="hidden" value="<%=l.getFullName()%>">
                     </li>
                     
                   	<%} %>
@@ -261,7 +201,9 @@ ul {
 						
 						<div class="listFooter">
 							
-							<div><%=dList.get(i).getDealTitle()%></div>
+							<div>
+								<%=dList.get(i).getDealTitle()%>
+							</div>
 							<div><%=dList.get(i).getPrice()%>원</div>
 						</div>
 							
@@ -291,8 +233,7 @@ ul {
 	$(function(){
 		
 		
-		console.log(dealCount);
-		$(".fullname").hide();
+		//$(".fullname").hide().css("opacity","0");
 		
 		$(".listSale>li").mouseenter(function(){
 			
@@ -320,7 +261,7 @@ ul {
 		}); 
 		$(".locals").click(function(){
 			$(".listSale").html("");
-			scrollSelectList(24,1,$(this).siblings().text());
+			scrollSelectList(24,1,$(this).siblings().val());
 			local=$(this).siblings().text();
 			limit=24;
 			currentPage=1;
@@ -401,6 +342,7 @@ ul {
 				    		$("#end").text("loading...");
 			    		}else{
 			    			$("#end").text("더 이상 조회 가능한 물품이 없습니다.");
+			    		
 			    		}
 			    		
 			    	}

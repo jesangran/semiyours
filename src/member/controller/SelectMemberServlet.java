@@ -22,13 +22,18 @@ public class SelectMemberServlet extends HttpServlet {
 		int uno = Integer.parseInt(request.getParameter("uno"));
 		Member member = new MemberService().selectMember(uno);
 		String page ="";
+		
 		RequestDispatcher view =null;
 		if(member!=null) {
-		
+			
+			  if(member.getAddress1()==null) { member.setAddress1(""); }
+			  if(member.getAddress2()==null) { member.setAddress2(""); }
+			  if(member.getSnsId()==null) { member.setSnsId(""); }
+			 
 			request.getSession().setAttribute("member", member);
 			request.getSession().setAttribute("mMsg","정보가 수정되었습니다.");
 			response.sendRedirect("views/mypage/memberInfo.jsp");
-	
+			
 		}else {
 			page ="views/common/errorPage.jsp";
 			request.setAttribute("errorMsg","정보 수정 중 오류가 발생했습니다!");

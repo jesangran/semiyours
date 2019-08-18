@@ -9,14 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 import deal.model.service.DealService;
 import deal.model.vo.Deal;
 import deal.model.vo.DealAttachment;
 import deal.model.vo.Local;
-import deal.model.vo.PageInfo;
 import member.model.vo.Member;
 
 @WebServlet("/select.de")
@@ -34,17 +30,14 @@ public class SelectDealServlet extends HttpServlet {
 		int start = 1;
 		int limit = 24;
 
-		String local =null;	
-		
-			if( ((Member)request.getSession().getAttribute("loginUser"))!=null ) { //로그인 했을 떄
+		String local ="";	
+		Member loginUser=((Member)request.getSession().getAttribute("loginUser"));
+			if( loginUser!=null ) { //로그인 했을 떄
 				
-				
-				local =((Member)request.getSession().getAttribute("loginUser")).getAddress1();
-				local = local.split(" ")[0]+" "+local.split(" ")[1];
-				
-				
-			}else{//로그인 안했을때
-				local=""; 
+				if(loginUser.getAddress1()!=null) {
+					local =loginUser.getAddress1();
+					local = local.split(" ")[0]+" "+local.split(" ")[1];
+				}
 			}
 			int dealCount =dService.getDealCount(local);
 		

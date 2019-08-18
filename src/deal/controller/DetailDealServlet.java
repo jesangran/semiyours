@@ -25,10 +25,8 @@ public class DetailDealServlet extends HttpServlet {
 		int dealNo = Integer.parseInt(request.getParameter("dealNo"));
 		DealService dService = new DealService();
 		Deal deal = dService.selectDeal(dealNo);
-		System.out.println(deal);
 		ArrayList<DealAttachment> daList = dService.selectFile(dealNo);
 		String page ="";
-		System.out.println(daList);
 		if(deal!=null && !daList.isEmpty()) {
 			page= "views/deal/DealDetailView.jsp";
 			request.setAttribute("deal", deal);

@@ -41,21 +41,40 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
             width: 50%;
             height: 70%;
             float: left;
-            /* border: solid black; */
+ 
             margin: auto;
             padding: auto;
 
         }
         .replyInputArea{
             width: 100%;
-            height: 30%;
-        
-            
+            height:110px;
+         
         }
+        .replyInputArea div{
+        	float:left;
+        	background: #F6F6F6;
+        	padding: 10px;
+        }
+        .replyInputArea div:first-child{
+        	width:90%;
+         	height: 100%;
+         	text-align: center;
+        }
+         .replyInputArea div:last-child{
+         	width:10%;
+         	height: 100%;
+         }
+         .replyInputArea div:last-child button{
+         	width:100%;
+         	height: 100%;
+         	font-size: 20px;
+         	background: white;
+         	border: 1px solid lightgrey;
+         }
 
         .replyListArea {
-        	width: 70%;
-        	margin: auto;
+        	
         }
         
         #inputimg{
@@ -133,9 +152,7 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
         #cancel, #submit{
             margin: 15px;
         }       
-        .replyInputArea table{
-        	width : 70%
-        }
+  
         
         .replyListArea tr>td:nth-child(1) {
         	width: 73px;
@@ -177,17 +194,16 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
     	}
     	
     	#dealTitle{
-    		width:80%;
+    		width:90%;
     		float:left;
     		font-size:20px;
     		
     	}
-    	#icon{
     	
-    		float:right;
-    		width:20%;
-    		text-align: right;
-    		
+    
+    	.date{
+    		float:left;
+    		width:10%;
     	}
     	
     	#titleArea{
@@ -195,6 +211,34 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
     		width:100%;
     		height: 40px;
     		border-bottom:1px solid lightgrey;
+    	}
+    	
+    	.buttons{text-align: right;}
+    	.buttons button{
+    		width:100px;
+    		height:40px;
+    		margin:10px 0 0 10px;
+    		background:white;
+    		border:1px solid black;
+    		font-size:18px;
+    		border: 1px solid lightgrey;
+    	}
+    	.commentArea >span{
+    		font-size:20px;
+    	}
+    	.dealStatus div{
+    		
+    		height: 100%;
+    	}
+    	.dealStatus div div{
+    		display:inline-block;
+    		border:1px solid grey;
+    		width:80px;
+    		height: 40px;
+    		font-size:15px;
+    		text-align: center;
+    		line-height: 40px;
+    		
     	}
     </style>
     </head>
@@ -208,10 +252,8 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 	   &nbsp;<%=deal.getDealTitle() %> 
 	   </div>
 	   
-	   <div id="icon">
-	    <span id="eye"> <img src="<%=request.getContextPath() %>/images/eye.png" >&nbsp;&nbsp;&nbsp;<%=deal.getViewCount()%></span> 
-	  &nbsp;&nbsp;&nbsp;&nbsp;
-	      <span id="report"><img width=20px height=20px  src="<%=request.getContextPath() %>/images/warning.png" ></span>
+	   <div class="date">
+	  	  <%=deal.getDealEnrollDate() %>
 	  </div>
 	     
   	   </div>
@@ -242,6 +284,7 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 	                        
 	                       <td class="dealInfo" id="seller"  colspan=3 >
 	                    		<%=deal.getDealWirter() %>
+	                    		(<%=deal.getDealerGrade()%>회원)
 	                       </td>
 	                       
 	                    </tr>
@@ -267,6 +310,16 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 	                    <tr>
 	                        <td class="title">수량</td>
 	                        <td class="dealInfo"><%=deal.getDealCount()%>개</td>
+	                    </tr>
+	                     <tr>
+	                        <td class="title">판매상태</td>
+	                        <td class="dealStatus">
+								<div>
+									<div id="selling">판매중</div>
+									<div id="dealing">거래중</div>
+									<div id="soldout">판매완료</div>
+								</div>
+							</td>
 	                    </tr>
 	                    <tr>
 	                         <td class="title" >거래위치</td> 
@@ -294,33 +347,56 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 	    	
 	    	
 	    
-	            </div>	    
-	    			<h2 class="deatailh2">상세내용</h2>
-	                <div class="contentArea">
-	                     <%=deal.getDealContent() %> 
-	               </div>
+	        </div>	    
+	    	<h2 class="deatailh2">상세내용</h2>
+	          <div class="contentArea">
+	           <%=deal.getDealContent() %> 
+	      	  </div>
+	      	  <div class="buttons">
+	      	  <%if(loginUser.getNickName().equals(deal.getDealWriter())){ %>
+	      	  	  <button id="updateBtn">수정</button>	
+	      	  	  <button id="deleteBtn">삭제</button>
+	      	  	  <%} %>
+	      	  	  <button onclick="javascript:history.back(-1)">목록</button>		
+	      	  </div>
 	         
 	               
 	    <!------------------------------------------- 댓글작성 ------------------------------------------->
-     <h3 class="commentArea"><span>댓글</span>(<span>0</span>)</h3>
-    	<hr>
-    <div class="replyInputArea">
+     <h3 class="commentArea">
+     <span>댓글</span>
+     (<span>0</span>)
+     <span id="eye"> 
+     &nbsp;&nbsp;&nbsp;
+     <img src="<%=request.getContextPath() %>/images/eye.png" >
+     <%=deal.getViewCount()%></span> 
+	 &nbsp;&nbsp;&nbsp;
+	 <span id="report">
+	  <img width=20px height=20px  src="<%=request.getContextPath() %>/images/warning.png" >신고하기
+	 </span>
+     
+     </h3>
    
-       <table id="replyInputTable" align = "center">
-            <tr>
-                <td id="title">댓글입력</td>
-                <td><textarea id="replyContent" cols="120" rows="3"></textarea></td>
-                <td><button type="submit">등록</button></td>
-            </tr>
-        </table>
-    </div> 
-    
-    
+    	<div class="replyArea">
+		   	  <form>
+		       	<div class="replyInputArea">
+		          	<div><textarea rows="5" cols="160"></textarea></div>
+		          	<div><button>등록</button></div>
+		        </div>
+		     </form>
+        <div class="replyListArea">
+        	<ul>
+        	
+        	</ul>
+        </div>
+
+	</div>
 
 
 
 <script>
 	$(function(){
+		
+		//사진 보기
 		$("#smallimg1").css("border","3px solid green");		
 		$(".smallimg").click(function(){
 			$(".bigimg").attr("src",$(this).attr("src"));
@@ -330,16 +406,64 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 			
 		});
 		
-		$("$seller").click()
-	
+		
+		//판매상태 표시
+		<%if(deal.getDealStatus()==1){%>
+			$("#selling").css({"background":"yellowgreen","color":"white"});
+		<%}else if(deal.getDealStatus()==2){%>
+			$("#dealing").css({"background":"yellowgreen","color":"white"});
+		<%}else{%>
+			$("#soldout").css({"background":"yellowgreen","color":"white"});
+		<%}%>
+		
+		
+		//판매상태 변경
+		<%if(loginUser.getNickName().equals(deal.getDealWriter())){ %>
+		$(".dealStatus div div").mouseenter(function(){
+			$(this).css("cursor","pointer");
+			$(this).click(function(){
+				var status = $(this).text();
+			
+				$(this).css({"background":"yellowgreen","color":"white"});
+				$(this).siblings().css({"background":"","color":""});
+				$.ajax({
+					url:"updateStatus.de",
+					data:{status:status,dealNo:<%=deal.getDealNo()%>},
+					type:"get",
+					success:function(result){
+						if(result==0){
+							alert("수정 중 오류가 발생했습니다.");
+						}
+					}
+					
+					
+				});
+				
+			});
+		});
+		<%}%>
+		
+		
+		//글 수정 폼으로 이동
+		$("#updateBtn").click(function(){
+			location.href="<%=request.getContextPath()%>/updateForm.de?dealNo=<%=deal.getDealNo()%>";
+		});
+		
+		
+		
+
+		
+		$("#report").click(function(){
+			window.open("insertForm.re?no=<%=deal.getDealNo()%>&rType=<%=deal.getrType()%>",
+					"reportpop","width=400px,height=200px,left=800px,top=300px, scrollbars=yes, resizable=yes"); 
+		});
+		
+		
 	});
 	
 	
 	
-	$("#report").click(function(){
-		window.open("insertForm.re?no=<%=deal.getDealNo()%>&rType=<%=deal.getrType()%>",
-				"reportpop","width=400px,height=200px,left=800px,top=300px, scrollbars=yes, resizable=yes"); 
-	});
+	
 	
 	
 	
