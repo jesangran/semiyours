@@ -281,9 +281,10 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 	                <table >
 	  					<tr>
 	                        <td class="title">판매자</td>
-	                        
+	                      
 	                       <td class="dealInfo" id="seller"  colspan=3 >
-	                    		<%=deal.getDealWirter() %>
+	                       <input type="hidden" name = "mOwner" value="<%= deal.getDealWriter()%>">
+	                    		<%=deal.getNickname() %>
 	                    		(<%=deal.getDealerGrade()%>회원)
 	                       </td>
 	                       
@@ -418,7 +419,7 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 		
 		
 		//판매상태 변경
-		<%if(loginUser.getNickName().equals(deal.getDealWriter())){ %>
+		<%if(loginUser.getNickName().equals(deal.getNickname())){ %>
 		$(".dealStatus div div").mouseenter(function(){
 			$(this).css("cursor","pointer");
 			$(this).click(function(){
@@ -456,6 +457,13 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 		$("#report").click(function(){
 			window.open("insertForm.re?no=<%=deal.getDealNo()%>&rType=<%=deal.getrType()%>",
 					"reportpop","width=400px,height=200px,left=800px,top=300px, scrollbars=yes, resizable=yes"); 
+		});
+		
+		
+		//쪽지보내기
+		$("#seller").click(function() {
+			var mOwner = <%=deal.getDealWriter()%>;
+			location.href="<%=request.getContextPath()%>/insertMsgForm.me?mOwner=<%=deal.getDealWriter()%>";
 		});
 		
 		

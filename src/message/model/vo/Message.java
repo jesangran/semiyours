@@ -8,14 +8,15 @@ public class Message {
 	private int mOwner; //쪽지함 주인
 	private String mTitle; //쪽지제목
 	private String mContent; //쪽지내용
-	private String mSender; //쪽지발신인
+	private int mSender; //쪽지발신인
+	private String nickname;
 	private Date mEnrollDate; //쪽지발신일자
 	private char mDeleteYN; //삭제상태
 	private char mCondition; //열람여부
 	
 	public Message() {}
 
-	public Message(int mNo, int mOwner, String mTitle, String mContent, String mSender, Date mEnrollDate,
+	public Message(int mNo, int mOwner, String mTitle, String mContent, int mSender, Date mEnrollDate,
 			char mDeleteYN, char mCondition) {
 		super();
 		this.mNo = mNo;
@@ -27,10 +28,23 @@ public class Message {
 		this.mDeleteYN = mDeleteYN;
 		this.mCondition = mCondition;
 	}
+		
+	
+	public Message(int mNo, int mOwner, String mTitle, String mContent, String nickname, Date mEnrollDate,
+			char mCondition) {
+		super();
+		this.mNo = mNo;
+		this.mOwner = mOwner;
+		this.mTitle = mTitle;
+		this.mContent = mContent;
+		this.nickname = nickname;
+		this.mEnrollDate = mEnrollDate;
+		this.mCondition = mCondition;
+	}
+	
+	
+	
 
-	
-	
-	
 	public Message(int mNo, int mOwner, String mTitle, Date mEnrollDate, char mCondition) {
 		super();
 		this.mNo = mNo;
@@ -40,7 +54,7 @@ public class Message {
 		this.mCondition = mCondition;
 	}
 
-	public Message(int mNo, int mOwner, String mTitle, String mContent, String mSender, Date mEnrollDate,
+	public Message(int mNo, int mOwner, String mTitle, String mContent, int mSender, Date mEnrollDate,
 			char mCondition) {
 		super();
 		this.mNo = mNo;
@@ -52,7 +66,7 @@ public class Message {
 		this.mCondition = mCondition;
 	}
 
-	public Message(int mOwner, String mTitle, String mContent, String mSender, Date mEnrollDate, char mCondition) {
+	public Message(int mOwner, String mTitle, String mContent, int mSender, Date mEnrollDate, char mCondition) {
 		super();
 		this.mOwner = mOwner;
 		this.mTitle = mTitle;
@@ -96,11 +110,11 @@ public class Message {
 		this.mContent = mContent;
 	}
 
-	public String getmSender() {
+	public int getmSender() {
 		return mSender;
 	}
 
-	public void setmSender(String mSender) {
+	public void setmSender(int mSender) {
 		this.mSender = mSender;
 	}
 
@@ -127,13 +141,24 @@ public class Message {
 	public void setmCondition(char mCondition) {
 		this.mCondition = mCondition;
 	}
+	
+	
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 
 	@Override
 	public String toString() {
 		return "Message [mNo=" + mNo + ", mOwner=" + mOwner + ", mTitle=" + mTitle + ", mContent=" + mContent
-				+ ", mSender=" + mSender + ", mEnrollDate=" + mEnrollDate + ", mDeleteYN=" + mDeleteYN + ", mCondition="
-				+ mCondition + "]";
+				+ ", mSender=" + mSender + ", nickname=" + nickname + ", mEnrollDate=" + mEnrollDate + ", mDeleteYN="
+				+ mDeleteYN + ", mCondition=" + mCondition + "]";
 	}
-	
+
+
 	
 }

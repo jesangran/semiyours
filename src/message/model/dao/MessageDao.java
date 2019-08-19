@@ -4,8 +4,11 @@ import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
+
+import member.model.vo.Member;
 
 import static common.JDBCTemplate.*;
 import message.model.vo.Message;
@@ -33,29 +36,32 @@ public class MessageDao {
 		try {
 			pstmt = conn.prepareStatement(query);
 			mList = new ArrayList<Message>();
-			System.out.println(query);
+//			System.out.println(query);
 			pstmt.setInt(1, userNo);
 			rset = pstmt.executeQuery();
-			System.out.println(query);
+//			System.out.println(query);
 			while(rset.next()) {
 				
-				System.out.println("M_NO===["+rset.getInt("M_NO"));       
-				System.out.println("M_OWNER===["+rset.getInt("M_OWNER"));     
-				System.out.println("M_TITLE===["+rset.getString("M_TITLE"));  
-				System.out.println("M_CONTENT===["+rset.getString("M_CONTENT"));
-				System.out.println("NICKNAME===["+rset.getString("NICKNAME")); 
-				System.out.println("M_ENROLLDATE===["+rset.getDate("M_ENROLLDATE"));
-				System.out.println("M_CONDITION===["+rset.getString("M_CONDITION").charAt(0));
+				/*
+				 * System.out.println("M_NO===["+rset.getInt("M_NO"));
+				 * System.out.println("M_OWNER===["+rset.getInt("M_OWNER"));
+				 * System.out.println("M_TITLE===["+rset.getString("M_TITLE"));
+				 * System.out.println("M_CONTENT===["+rset.getString("M_CONTENT"));
+				 * System.out.println("NICKNAME===["+rset.getString("NICKNAME"));
+				 * System.out.println("M_ENROLLDATE===["+rset.getDate("M_ENROLLDATE"));
+				 * System.out.println("M_CONDITION===["+rset.getString("M_CONDITION").charAt(0))
+				 * ;
+				 */
 				
 				Message msg = new Message(
 								rset.getInt("M_NO"), 
 								rset.getInt("M_OWNER"), //int
 								rset.getString("M_TITLE"),
 								rset.getString("M_CONTENT"), 
-								rset.getString("NICKNAME"),  //string
+								rset.getInt("NICKNAME"),  //string
 								rset.getDate("M_ENROLLDATE"),
 								rset.getString("M_CONDITION").charAt(0));
-						//(mNo, mOwner, mTitle, mContent, mSender, mEnrollDate, mCondition)
+						//(mNo, mOwner, mTitle, mContent, nickname, mEnrollDate, mCondition)
 				mList.add(msg);
 				System.out.println(msg);
 			}
@@ -85,19 +91,20 @@ public class MessageDao {
 			mList = new ArrayList<Message>();
 			pstmt.setInt(1, userNo);
 			rset = pstmt.executeQuery();
-			System.out.println("발신함==============");
-			System.out.println(query);
-			System.out.println("발신함==============");
+			/*
+			 * System.out.println("발신함=============="); System.out.println(query);
+			 * System.out.println("발신함==============");
+			 */
 			while(rset.next()) {
 				
-				System.out.println("M_NO===["+rset.getInt("M_NO"));                                     
-				System.out.println("M_TITLE===["+rset.getString("M_TITLE"));                            
-				System.out.println("M_ENROLLDATE===["+rset.getDate("M_ENROLLDATE"));                    
-				System.out.println("M_CONDITION===["+rset.getString("M_CONDITION").charAt(0));          
+//				System.out.println("M_NO===["+rset.getInt("M_NO"));                                     
+//				System.out.println("M_TITLE===["+rset.getString("M_TITLE"));                            
+//				System.out.println("M_ENROLLDATE===["+rset.getDate("M_ENROLLDATE"));                    
+//				System.out.println("M_CONDITION===["+rset.getString("M_CONDITION").charAt(0));          
 
 				Message msg = new Message(
 						rset.getInt("M_NO"), 
-						rset.getInt("M_SENDER"), 
+						rset.getInt("M_OWNER"), 
 						rset.getString("M_TITLE"),
 						rset.getString("M_CONTENT"), 
 						rset.getString("NICKNAME"), 
@@ -207,7 +214,35 @@ public class MessageDao {
 		
 		return result;
 	}
+
 	
+	public int MessageInsert(Connection conn, Message msg) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = prop.getProperty("MessageInsert");
+		System.out.println("쿼리"+query);
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, msg.getmOwner()); //받는사람
+			System.out.println("받는사람"+msg.getmOwner());
+			pstmt.setString(2, msg.getmTitle());
+			System.out.println("제목"+msg.getmTitle());
+			pstmt.setString(3, msg.getmContent());
+			System.out.println("내용"+msg.getmContent());
+			pstmt.setInt(4, msg.getmSender()); //로그인유저
+			System.out.println("작성자"+msg.getmSender());
+		
+			result  = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
 	
+
 
 }

@@ -69,5 +69,21 @@ public class MessageService {
 		return result;
 	}
 
+	public int MessageInsert(Message msg) {
+		Connection conn = getConnection();
+
+		int result = new MessageDao().MessageInsert(conn, msg);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
+	}
+
+
+
+
 
 }
