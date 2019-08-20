@@ -153,9 +153,6 @@ input::placeholder {
 					아직 회원이 아니세요? <span id="goJoinForm">회원가입하기</span>
 				</div>
 				<div class="form-footer">
-					아이디를 잊어버리셨나요? <span id="goFindIdForm">아이디 찾기</span>
-				</div>
-				<div class="form-footer">
 					비밀번호를 잊어버리셨나요? <span id="goFindPwdForm">비밀번호 찾기</span>
 				</div>
 
@@ -221,8 +218,11 @@ input::placeholder {
 		
 		
 	<%if(loginUser!=null){%>
-	<script >
-		("*").off("click");
+	<script >	
+		<%if(loginUser.getAddress1()!=null){%>
+		$("#local").css({"background":"#F6F6F6"});
+	
+		<%}%>
 	</script>
 		<%}%>
 </body>

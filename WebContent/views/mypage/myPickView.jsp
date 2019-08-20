@@ -171,7 +171,7 @@ ul {
 					
 			</ul>
 			<%}else{ %>
-			<h1 align="center">등록된 물품이 없습니다 ㅠㅠ</h1>
+			<h1 align="center">찜한 내역이 없습니다.</h1>
 			<%} %>
 			
 		</div>

@@ -449,8 +449,9 @@ public class DealDao {
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 				csList.add(new Deal(rset.getInt(2), rset.getString(3), rset.getInt(4), rset.getInt(5), rset.getInt(6),rset.getString(7),rset.getString("DEPT1_NAME"),rset.getString("DEPT2_NAME")));
-			
+				
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -11,7 +11,7 @@ String mMsg =(String)session.getAttribute("mMsg");
 String msg =(String)request.getAttribute("msg");
 Member loginUser = (Member)session.getAttribute("loginUser");
 String encPwd =(String)request.getAttribute("encPwd"); 
-ArrayList<Category1> cate1List = (ArrayList<Category1>)request.getAttribute("cate1List");
+ArrayList<Category1> c1List = (ArrayList<Category1>)request.getAttribute("c1List");
 %>
 <!DOCTYPE html>
 <html>
@@ -213,23 +213,25 @@ header article{
 	left:100px;
 	top:40px;
 	z-index: 5;
+	display:none;
+	position: relative;
 }
 .cateListWrapper ul li{
 	padding:25px 0 25px 0;
 	width:100%;
 	color:white;
 	list-style: none;
-	position: relative;;
+	
 	
 }
-#categorydept2{
+.categorydept2{
 	position:absolute;
 	background:rgba(0,0,0,0.7);
 	width:180px;
 	top:0;
 	left:180px;
 	display: none;
-	height:600px;
+
 }
 
 </style>
@@ -360,34 +362,34 @@ header article{
 	                     <li>
 	                     <input type="hidden" class="c1No" name ="c1No" value="1">
 	                     <div class="c1Name">생활가전</div>
-	                     <ul id="categorydept2"></ul>
+	                      <ul class="categorydept2"></ul>
 	                     </li>
 	                         <li>
 	                     <input type="hidden" class="c1No" name ="c1No" value="2">
 	                     <div class="c1Name">주방가전</div>
-	                     <ul id="categorydept2"></ul>
+	                     <ul class="categorydept2"></ul>
 	                     </li>
 	                         <li>
 	                     <input type="hidden" class="c1No" name ="c1No" value="3">
 	                     <div class="c1Name">IT가전</div>
-	                     <ul id="categorydept2"></ul>
+	                     <ul class="categorydept2"></ul>
 	                     </li>
 	                         <li>
 	                     <input type="hidden" class="c1No" name ="c1No" value="4">
 	                     <div class="c1Name">멀티미디어</div>
-	                     <ul id="categorydept2"></ul>
+	                     <ul class="categorydept2"></ul>
 	                     </li>
 	                         <li>
 	                     <input type="hidden" class="c1No" name ="c1No" value="5">
 	                     <div class="c1Name">계절가전</div>
-	                     <ul id="categorydept2"></ul>
+	                     <ul class="categorydept2"></ul>
 	                     </li>
 	                         <li>
 	                     <input type="hidden" class="c1No" name ="c1No" value="6">
 	                     <div class="c1Name">기타</div>
-	                     <ul id="categorydept2"></ul>
+	                     <ul class="categorydept2"></ul>
 	                     </li>
-	              
+	              		  
 	               </ul>
             </div>
             	
@@ -442,12 +444,20 @@ header article{
 			
 		});
 		
+		
+		$(".cateListWrapper").mouseleave(function(){
+			setTimeout(function(){
+				$(".cateListWrapper").hide();
+			},500);
+		});
+		
 		$(".c1Name").click(function(){
 			
 			var cno = $(this).prev().val(); 
 			console.log(cno);
-			$("#categorydept2").show();
-			$("#categorydept2").html("");
+			$(".categorydept2").hide();
+			$(this).next().show();
+			$(".categorydept2").html("");
 				$.ajax({
 					url:"select2.cate",
 					data:{cno:cno},
@@ -459,12 +469,11 @@ header article{
 					
 						$.each(result,function(i){
 							var $li = $("<li>");
-							var $li = $("<li>");
 							var $cNo = $("<input>");
 							$li.text(result[i].cName);
 							$cNo.attr({"type":"hidden","value":result[i].cNo});
-							$("#categorydept2").append($li);
-							$("#categorydept2").append($cNo);
+							$(".categorydept2").append($li);
+							$(".categorydept2").append($cNo);
 							CategorySearch($li);
 						});
 							
@@ -483,8 +492,9 @@ header article{
 			
 			$category.click(function(){
 
-			var cName=$(this).text();
 			
+			var cName=$(this).text();
+			console.log(cName);
  			 location.href="<%=request.getContextPath()%>/searchCategory.de?cName="+cName; 
 			});
 			

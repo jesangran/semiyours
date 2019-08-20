@@ -1,16 +1,16 @@
 package customer.model.dao;
 
 
+import static common.JDBCTemplate.close;
+
 import java.io.FileReader;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import static common.JDBCTemplate.*;
 import customer.model.vo.NoticeVo;
 
 

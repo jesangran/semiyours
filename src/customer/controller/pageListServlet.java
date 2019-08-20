@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import customer.model.service.NoticeService;
-import customer.model.vo.NoticeVo;
 import customer.model.vo.PageInfo;
 
 

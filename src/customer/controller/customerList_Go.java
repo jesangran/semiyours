@@ -1,7 +1,6 @@
 package customer.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,12 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import customer.model.service.FaqService;
-import customer.model.service.NoticeService;
-import customer.model.vo.FaqVo;
-import customer.model.vo.NoticeVo;
-import customer.model.vo.PageInfo;
 
 @WebServlet("/customer_Go")
 public class customerList_Go extends HttpServlet {

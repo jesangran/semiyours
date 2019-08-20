@@ -3,7 +3,7 @@
 <%@page import="deal.model.vo.Category1"%>
 <%@page import="java.util.ArrayList"%>
 <%
-ArrayList<Category1> c1List = (ArrayList<Category1>)request.getAttribute("c1List");
+/* ArrayList<Category1> c1List = (ArrayList<Category1>)request.getAttribute("c1List"); */
 %> 
 <!DOCTYPE html>
 <html lang="ko">
