@@ -21,11 +21,10 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
         *{
             box-sizing: border-box;
             font-family:'Malgun Gothic';
-            font-size: 12px;
+        
         }
         .outer{
             width: 1280px;
-            margin: auto;
         }
       
         .imgarea {
@@ -240,6 +239,16 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
     		line-height: 40px;
     		
     	}
+    	.comment{
+    		
+    		height:70%;
+   
+    		line-height: 50px;
+    	}
+        .commentList{
+    		list-style: none;
+    		height:60px;
+    	}
     </style>
     </head>
 <body >
@@ -281,9 +290,9 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 	                <table >
 	  					<tr>
 	                        <td class="title">판매자</td>
-	                        
+	                       
 	                       <td class="dealInfo" id="seller"  colspan=3 >
-	                    		<%=deal.getDealWirter() %>
+	                    		<%=deal.getNickname()%>
 	                    		(<%=deal.getDealerGrade()%>회원)
 	                       </td>
 	                       
@@ -353,9 +362,11 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 	           <%=deal.getDealContent() %> 
 	      	  </div>
 	      	  <div class="buttons">
-	      	  <%if(loginUser.getNickName().equals(deal.getDealWriter())){ %>
+	      	  <%if(loginUser.getUserNo()==deal.getDealWriter()){ %>
 	      	  	  <button id="updateBtn">수정</button>	
 	      	  	  <button id="deleteBtn">삭제</button>
+	      	  	  <%}else{ %>
+	      	  	   <button id="pickBtn">찜하기</button>		
 	      	  	  <%} %>
 	      	  	  <button onclick="javascript:history.back(-1)">목록</button>		
 	      	  </div>
@@ -364,7 +375,7 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 	    <!------------------------------------------- 댓글작성 ------------------------------------------->
      <h3 class="commentArea">
      <span>댓글</span>
-     (<span>0</span>)
+     (<span id="commentCount">0</span>)
      <span id="eye"> 
      &nbsp;&nbsp;&nbsp;
      <img src="<%=request.getContextPath() %>/images/eye.png" >
@@ -377,21 +388,19 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
      </h3>
    
     	<div class="replyArea">
-		   	  <form>
+		   
 		       	<div class="replyInputArea">
-		          	<div><textarea rows="5" cols="160"></textarea></div>
-		          	<div><button>등록</button></div>
+		          	<div><textarea rows="5" cols="170" id="commentContent"></textarea></div>
+		          	<div><button id="commentInsertBtn">등록</button></div>
 		        </div>
-		     </form>
+		 
         <div class="replyListArea">
-        	<ul>
+        	<ul id="replyList">
         	
         	</ul>
         </div>
 
 	</div>
-
-
 
 <script>
 	$(function(){
@@ -406,7 +415,6 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 			
 		});
 		
-		
 		//판매상태 표시
 		<%if(deal.getDealStatus()==1){%>
 			$("#selling").css({"background":"yellowgreen","color":"white"});
@@ -416,9 +424,8 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 			$("#soldout").css({"background":"yellowgreen","color":"white"});
 		<%}%>
 		
-		
 		//판매상태 변경
-		<%if(loginUser.getNickName().equals(deal.getDealWriter())){ %>
+		<%if(loginUser.getUserNo()==deal.getDealWriter()){ %>
 		$(".dealStatus div div").mouseenter(function(){
 			$(this).css("cursor","pointer");
 			$(this).click(function(){
@@ -436,44 +443,120 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 						}
 					}
 					
-					
 				});
 				
 			});
 		});
 		<%}%>
 		
-		
 		//글 수정 폼으로 이동
 		$("#updateBtn").click(function(){
 			location.href="<%=request.getContextPath()%>/updateForm.de?dealNo=<%=deal.getDealNo()%>";
 		});
 		
+		$("#commentInsertBtn").click(function(){
+			var commentContent=$("#commentContent").val().trim();
+			if(commentContent!=""){
+			$.ajax({
+				url:"insertComment.de",
+				data:{commentContent:commentContent,dealNo:<%=deal.getDealNo()%>},
+				type:"post",
+				success:function(result){
+			
+					if(result>0){
+						 $("#replyList").html("");
+						 $("#commentContent").val("");
+						 selectComment(dealNo);	
+					
+					}
+				}
+			});
+			}else{
+				alert("댓글을 입력해주세요");
+				$("#commentContent").focus();
+			}
+		});
 		
-		
-
+		var dealNo=<%=deal.getDealNo()%>;
+		selectComment(dealNo);
 		
 		$("#report").click(function(){
 			window.open("insertForm.re?no=<%=deal.getDealNo()%>&rType=<%=deal.getrType()%>",
 					"reportpop","width=400px,height=200px,left=800px,top=300px, scrollbars=yes, resizable=yes"); 
 		});
 		
+		$("#pickBtn").click(function(){
+		      var dNo = <%=deal.getDealNo()%>;
+		   
+		      $.ajax({
+		         url : "updatePick.do",
+		         dataType: "json",
+		         type : "post",
+		         data : {dNo : dNo},
+		         success : function(result) {
+		            if(result > 0) {
+		               alert("찜 목록이 성공적으로 추가 되었습니다");
+		            }else{
+		            	alert("이미 찜한 상품입니다.");
+		            }
+		         },
+		         error : function() {
+		            alert("찜 목록 추가 중 에러 발생 ");
+		         }
+		      });
+		   })
 		
 	});
 	
-	
-	
-	
-	
-	
+	function selectComment(dealNo){
+		
+		
+		$.ajax({
+			url:"selectComment.de",
+			data:{dealNo:dealNo},
+			type:"post",
+			dataType:"json",
+			success:function(commList){
+				console.log(commList);
+				
+				$.each(commList,function(i){
+					var $li = $("<li>");
+					var $div1 = $("<div>");
+					var $div2 = $("<div>");
+					var $div3 = $("<div>");
+					var $div4 = $("<div>");
+					var $div5 = $("<div>");
+					var $deleteButton = $("<button>");
+					var $updateButton = $("<button>");
+					$deleteButton.text("삭제")
+					$updateButton.text("수정")
+					$div1.text(commList[i].dealCommWriter);
+					$div1.attr({"class":"comment","id":"commWiterArea"}).css({"width":"100px","float":"left"});
+					$div2.text(commList[i].dealCommContent);
+					$div2.attr({"class":"comment","id":"commContentArea"}).css({"width":"800px","float":"left"});
+					$div3.text(commList[i].dealCommEnrolldate);
+					$div3.attr({"class":"comment","id":"commDateArea"}).css({"width":"180px","float":"left"});
+					$div4.html($deleteButton);
+					$div4.attr({"class":"comment","id":"deleteButtonArea"}).css({"width":"50px","float":"left","background":"white","border":"none"});
+					$div5.html($updateButton);
+					$div5.attr({"class":"comment","id":"updateButtonArea"}).css({"width":"50px","float":"left","background":"white","border":0});
+					$li.append($div1);
+					$li.append($div2);
+					$li.append($div3);
+					$li.append($div5);
+					$li.append($div4);
+					$li.attr("class","commentList").css({"border-top":"1px solid lightgrey"});
+					 $("#replyList").append($li);
+				});
+				$("#commentCount").text(commList.length);
+			}
+		});
+	}
 	
 </script>
 
-
 <br style="clear:both">
 <%@ include file="../../views/common/footer.jsp"%>
-
-
 
 <script>
 
@@ -483,49 +566,32 @@ var mapOption;
 var map;
 var x,y  = "";
 
-
-
-
  mapOption = {
   center: new kakao.maps.LatLng(37.568168, 126.983014), // 임의의 지도 중심좌표 , 제주도 다음본사로 잡아봤다.
-  level: 4// 지도의 확대 레벨
+  level: 4
 
  };
-
-
-// 지도 생성
-
 
 map = new kakao.maps.Map(mapContainer, mapOption);
  
 $(function(){
  var gap = "<%=deal.getDealLocal()%>"; // 주소검색어
  
- 
- 
- // 주소-좌표 변환 객체를 생성
  var geocoder = new kakao.maps.services.Geocoder();
 
- // 주소로 좌표를 검색
  geocoder.addressSearch(gap, function(result, status) {
   
-  // 정상적으로 검색이 완료됐으면,
   if (status == kakao.maps.services.Status.OK) {
    
 	var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
    y = result[0].x;
    x = result[0].y;
-
-   // 결과값으로 받은 위치를 마커로 표시
    
    var marker = new kakao.maps.Marker({
     map: map,
     position: coords
    });
-
-
-   // 인포윈도우로 장소에 대한 설명표시
   
 	    var infowindow = new kakao.maps.InfoWindow({
 	    content: '<div style="width:150px;text-align:center;padding:5px 0;"></div>'
@@ -533,10 +599,7 @@ $(function(){
 	
 	   infowindow.open(map,marker); 
   
-   
-   // 지도 중심을 이동
    map.setCenter(coords);
-
  
   }
  });

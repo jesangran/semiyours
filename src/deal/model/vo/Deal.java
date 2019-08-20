@@ -4,7 +4,8 @@ import java.sql.Timestamp;
 
 public class Deal {
 	private int dealNo;
-	private String dealWriter;
+	private int dealWriter;
+	private String nickname;
 	private String dealTitle;
 	private String dealContent;
 	private Timestamp dealEnrollDate;
@@ -25,12 +26,13 @@ public class Deal {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Deal(int dealNo, String dealWriter, String dealTitle, String dealContent, Timestamp dealEnrollDate,
+	public Deal(int dealNo, int dealWriter,String nickname,String dealTitle, String dealContent, Timestamp dealEnrollDate,
 			int dealCount, int dealStatus, String dept1, String dept2, String dealLocal, 
 			int price, int dealType,int viewCount,int rType,String dealerGrade) {
 		super();
 		this.dealNo = dealNo;
 		this.dealWriter = dealWriter;
+		this.nickname = nickname;
 		this.dealTitle = dealTitle;
 		this.dealContent = dealContent;
 		this.dealEnrollDate = dealEnrollDate;
@@ -60,7 +62,7 @@ public class Deal {
 		this.dealType = dealType;
 	}
 
-	public Deal(String dealWriter, String dealTitle, String dealContent, int dealCount, String dept1, String dept2,
+	public Deal( String dealTitle,int dealWriter, String dealContent, int dealCount, String dept1, String dept2,
 			String dealLocal, int price, int dealType) {
 		super();
 		this.dealWriter = dealWriter;
@@ -73,8 +75,6 @@ public class Deal {
 		this.price = price;
 		this.dealType = dealType;
 	}
-	
-	
 	public Deal(int dealNo, String dealTitle, int dealStatus, int price, int dealType) {
 		super();
 		this.dealNo = dealNo;
@@ -82,6 +82,29 @@ public class Deal {
 		this.dealStatus = dealStatus;
 		this.price = price;
 		this.dealType = dealType;
+
+	}
+	
+	public Deal(int dealNo, String dealTitle, int dealStatus, int price, int dealType,String dealLocal) {
+		super();
+		this.dealNo = dealNo;
+		this.dealTitle = dealTitle;
+		this.dealStatus = dealStatus;
+		this.price = price;
+		this.dealType = dealType;
+		this.dealLocal=dealLocal;
+		
+	}
+	public Deal(int dealNo, String dealTitle, int dealStatus, int price, int dealType,String dealLocal,String dept1, String dept2) {
+		super();
+		this.dealNo = dealNo;
+		this.dealTitle = dealTitle;
+		this.dealStatus = dealStatus;
+		this.price = price;
+		this.dealType = dealType;
+		this.dealLocal=dealLocal;
+		this.dept1 = dept1;
+		this.dept2 = dept2;
 	}
 	public int getrType() {
 		return rType;
@@ -89,10 +112,10 @@ public class Deal {
 	public void setrType(int rType) {
 		this.rType = rType;
 	}
-	public String getDealWriter() {
+	public int getDealWriter() {
 		return dealWriter;
 	}
-	public void setDealWriter(String dealWriter) {
+	public void setDealWriter(int dealWriter) {
 		this.dealWriter = dealWriter;
 	}
 	public int getViewCount() {
@@ -108,12 +131,7 @@ public class Deal {
 	public void setDealNo(int dealNo) {
 		this.dealNo = dealNo;
 	}
-	public String getDealWirter() {
-		return dealWriter;
-	}
-	public void setDealWirter(String dealWriter) {
-		this.dealWriter = dealWriter;
-	}
+
 	public String getDealTitle() {
 		return dealTitle;
 	}
@@ -193,6 +211,14 @@ public class Deal {
 
 	public void setDealerGrade(String dealerGrade) {
 		this.dealerGrade = dealerGrade;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package deal.controller;
+package mypage.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,40 +12,36 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import deal.model.service.DealService;
 import deal.model.vo.Deal;
 import deal.model.vo.DealAttachment;
-import deal.model.vo.Local;
+import mypage.model.service.MypageService;
 
-@WebServlet("/scroll.de")
-public class ScrollSelectServlet extends HttpServlet {
+@WebServlet("/scroll.my")
+public class ScrollPickSelectServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public ScrollSelectServlet() {
+    public ScrollPickSelectServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		DealService dService = new DealService();
+		MypageService myService = new MypageService();
 		
 
 		int limit = Integer.parseInt(request.getParameter("limit"));
-		int currentPage = Integer.parseInt(request.getParameter("currentPage"));
-		String local=request.getParameter("local");
-		System.out.println(local+"asd");
-		System.out.println(currentPage);
+		int start = Integer.parseInt(request.getParameter("currentPage"));
+		int uno=Integer.parseInt(request.getParameter("uno"));
 		System.out.println(limit);
-		
-		ArrayList<Deal> dList = dService.selectList(currentPage, limit,local);
-		ArrayList<DealAttachment> dfList = dService.selectDFList(currentPage, limit,local);
-		ArrayList<Local> lList = dService.selectLocal();
-		request.setAttribute("lList", lList);
-		String page = "";
+		System.out.println(start);
+		System.out.println(uno);
+		ArrayList<Deal> pList = myService.selectPick(start, limit,uno);
+		ArrayList<DealAttachment> pfList = myService.selectPickFile(start, limit, uno);
+		System.out.println(pList);
 		
 		JSONArray Dealja = new JSONArray();
 		JSONArray Daja = new JSONArray();
 		JSONObject jo = new JSONObject();
-		for(Deal deal : dList) {
+		for(Deal deal : pList) {
 			JSONObject d = new JSONObject();
 			d.put("dealNo",deal.getDealNo());
 			d.put("dealTitle", deal.getDealTitle());
@@ -55,12 +51,12 @@ public class ScrollSelectServlet extends HttpServlet {
 			d.put("dealLocal",deal.getDealLocal().split(" ")[0]+" "+deal.getDealLocal().split(" ")[1]);
 			Dealja.add(d);
 		}
-		for(DealAttachment da : dfList) {
+		for(DealAttachment da : pfList) {
 			Daja.add(da.getDaChange());
 		}
-		jo.put("count",dfList.size());
-		jo.put("dList",Dealja);
-		jo.put("dfList",Daja);
+		jo.put("count",pList.size());
+		jo.put("pList",Dealja);
+		jo.put("pfList",Daja);
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().print(jo);
 

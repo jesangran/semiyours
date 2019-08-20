@@ -30,13 +30,13 @@ ul{
 	padding:20px;
 }
 .sideList{margin-bottom:30px; padding:5px; color:rgba(0,0,0,0.8)}
+.sideList:hover{
+	cursor:pointer;
+}
 #myInfo{cursor: pointer;}
 
 
-#updateInfo{
-	font-weight: bolder;
-	color:black;
-}
+
 
 </style>
 </head>
@@ -48,7 +48,7 @@ ul{
 			
 			<ul>
 				<li><h2 class="titleMypage">마이페이지</h2><li>
-				<li class="sideList" id="myInfo">
+				<li class="sideList updateInfo" id="myInfo">
 				<div id="updateInfo">정보 수정</div>
 				</li>
 				<li class="sideList pick">
@@ -66,9 +66,13 @@ ul{
 	</aside>
 	
 	<script>
+		
 		$("#myInfo").click(function(){
 			location.href="<%=request.getContextPath()%>/views/mypage/pwdInputForm.jsp";
 		});
+		$(".pick").click(function(){
+			location.href="<%=request.getContextPath()%>/selectPick.my";
+		})
 	</script>
 </body>
 </html>

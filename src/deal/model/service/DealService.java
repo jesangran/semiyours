@@ -13,6 +13,7 @@ import deal.model.vo.Category1;
 import deal.model.vo.Category2;
 import deal.model.vo.Deal;
 import deal.model.vo.DealAttachment;
+import deal.model.vo.DealComment;
 import deal.model.vo.Local;
 
 public class DealService {
@@ -166,5 +167,39 @@ public class DealService {
 
 		return result1;
 	}
+	public int insertComment(DealComment dComment) {
+		Connection conn= getConnection();
+		int result = new DealDao().insertComment(conn,dComment);
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
+	}
+
+	public ArrayList<DealComment> selectComment(int dealNo) {
+		Connection conn= getConnection();
+		ArrayList<DealComment> commList =new DealDao().selectComment(conn,dealNo);
+		return commList;
+	}
+
+	public ArrayList<Deal> selectCategoryList(int start,int limit,String cName,String local) {
+		Connection conn = getConnection();
+		ArrayList<Deal> csList = new DealDao().selectCategoryList(conn,start,limit,cName,local);
+		
+		return csList;
+	}
+
+	public ArrayList<DealAttachment> selectCategoryDaList(int start, int limit, String cName, String local) {
+		Connection conn = getConnection();
+		ArrayList<DealAttachment> cdaList = null;
+
+		cdaList = new DealDao().selectCategoryDaList(conn, start, limit,cName, local);
+
+		return cdaList;
+	}
+	
+	 
 
 }

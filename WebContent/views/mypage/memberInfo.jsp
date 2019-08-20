@@ -95,6 +95,7 @@ body {
 	
 	<%@ include file="../common/footer.jsp"%>
 	<script>
+	$(".updateInfo").css({"font-weight":"bolder","color":"black"});
 	function goPopup(){
 	    var pop = window.open("../mypage/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
 	}

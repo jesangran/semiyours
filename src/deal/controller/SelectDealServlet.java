@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import deal.model.service.DealService;
+import deal.model.vo.Category1;
 import deal.model.vo.Deal;
 import deal.model.vo.DealAttachment;
 import deal.model.vo.Local;
@@ -39,12 +40,12 @@ public class SelectDealServlet extends HttpServlet {
 					local = local.split(" ")[0]+" "+local.split(" ")[1];
 				}
 			}
-			int dealCount =dService.getDealCount(local);
 		
+		 
 		ArrayList<Deal> dList = dService.selectList(start, limit,local);
 		ArrayList<DealAttachment> dfList = dService.selectDFList(start, limit,local);
-		ArrayList<Local> lList = dService.selectLocal();
-	
+		//ArrayList<Local> lList = dService.selectLocal();
+		//ArrayList<Category1> c1List = dService.selectCategory1();
 	
 		String page = "";
 	
@@ -55,8 +56,9 @@ public class SelectDealServlet extends HttpServlet {
 			page = "index.jsp";
 			request.setAttribute("dList", dList);
 			request.setAttribute("dfList", dfList);
-			request.setAttribute("lList", lList);
-			request.setAttribute("dealCount", dealCount);
+			//request.setAttribute("lList", lList);
+			//request.setAttribute("cate1List", c1List);
+	
 			request.setAttribute("myLocal", local);
 				
 			

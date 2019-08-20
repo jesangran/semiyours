@@ -10,9 +10,9 @@
 <%
 ArrayList<Deal> dList =(ArrayList<Deal>)request.getAttribute("dList");
 ArrayList<DealAttachment> dfList =(ArrayList<DealAttachment>)request.getAttribute("dfList");
-ArrayList<Local> lList = (ArrayList<Local>)request.getAttribute("lList");
+//ArrayList<Local> lList = (ArrayList<Local>)request.getAttribute("lList");
 String myLocal= (String)request.getAttribute("myLocal");
-int dealCount = (Integer)request.getAttribute("dealCount");
+//int dealCount = (Integer)request.getAttribute("dealCount");
 %>
 
 <!DOCTYPE html>
@@ -73,10 +73,10 @@ ul {
 }
 .listFooter {
 	width: 250px;
-	height: 70px;
+	height: 100px;
 	top:0;
 	margin: 0;
-	font-size:20px;
+	font-size:18px;
 	overflow: hidden; 
 	white-space: nowrap;
 	text-overflow:ellipsis;
@@ -154,11 +154,14 @@ ul {
 </style>
 </head>
 <body>
+
+
+
  <div class= menubar>
         <ul class="highList">
             <li><span class="localSel local" id="local">우리동네</span></li>
             <li><span class="localSel public" id="public">전국</span>
-                <ul class="localList">
+              <%--   <ul class="localList">
                 	<% for(Local l : lList){%>
                     <li >
                     <span class="locals"><%=l.getlName() %></span>
@@ -166,16 +169,17 @@ ul {
                     </li>
                     
                   	<%} %>
-                </ul>
+                </ul> --%>
             </li>
         </ul>
     </div>
-
+	
 	<section id="wrapper">
 
 		
 		<div id="listFrame">
 			<%if(!dList.isEmpty()) {%>
+			
 			<ul class="listSale" >
 		
 					<%for(int i=0; i<dList.size(); i++){ %>
@@ -205,6 +209,7 @@ ul {
 								<%=dList.get(i).getDealTitle()%>
 							</div>
 							<div><%=dList.get(i).getPrice()%>원</div>
+							<div><%=dList.get(i).getDealLocal().split(" ")[0]+" "+dList.get(i).getDealLocal().split(" ")[1]%></div>
 						</div>
 							
 					</li>
@@ -227,7 +232,7 @@ ul {
 	var limit =currentPage+count-1;
 	var check = true;
 	var local="<%=myLocal%>";
-	var dealCount =<%=dealCount%>;
+<%-- 	var dealCount =<%=dealCount%>; --%>
 	
 
 	$(function(){
@@ -287,7 +292,7 @@ ul {
 								check=false;
 							}
 						}
-					}).css({"overflow":"scroll","height":"1280px"});;
+					}).css({"overflow":"scroll","height":"1280px"});
 			 	}); 
 			<%}%>
 		});
@@ -307,6 +312,7 @@ ul {
 				    			var onclick = "location.href='<%=request.getContextPath()%>/detail.de?dealNo="+saleList.dList[i].dealNo+"'";
 				    			var title = saleList.dList[i].dealTitle;
 				    			var price = saleList.dList[i].price;
+				    			var local  =saleList.dList[i].dealLocal;
 				    			var $salImg = $("<img>");
 				    			var $imgFrame=$("<div>");
 				    			var $dealStatus=$("<div>");
@@ -323,8 +329,9 @@ ul {
 				    			}
 				    			$imgFrame.append($dealStatus);
 				    			$imgFrame.attr("class","imgFrame");
-				    			$listFooter.html("<div>"+title+"</div><div>"+price+"원</div>");
 				    			$listFooter.attr("class","listFooter");
+				    			$listFooter.html("<div>"+title+"</div><div>"+price+"원</div><div>"+local+"</div>");
+				    			
 				    			$sale.html($imgFrame);
 				    			$sale.append($listFooter);
 				    			$sale.attr({"class":"sale","onclick":onclick}).mouseenter(function(){
