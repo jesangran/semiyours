@@ -1,7 +1,5 @@
 package notice.model.vo;
 
-import java.sql.Date;
-
 public class Norice_vo {
 	private int nNo; // 공지사항 글번호
 	private String nTitle; // 공지사항 제목

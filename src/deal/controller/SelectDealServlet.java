@@ -45,7 +45,7 @@ public class SelectDealServlet extends HttpServlet {
 		ArrayList<Deal> dList = dService.selectList(start, limit,local);
 		ArrayList<DealAttachment> dfList = dService.selectDFList(start, limit,local);
 		//ArrayList<Local> lList = dService.selectLocal();
-		//ArrayList<Category1> c1List = dService.selectCategory1();
+		ArrayList<Category1> c1List = dService.selectCategory1();
 	
 		String page = "";
 	
@@ -57,7 +57,7 @@ public class SelectDealServlet extends HttpServlet {
 			request.setAttribute("dList", dList);
 			request.setAttribute("dfList", dfList);
 			//request.setAttribute("lList", lList);
-			//request.setAttribute("cate1List", c1List);
+			request.setAttribute("c1List", c1List);
 	
 			request.setAttribute("myLocal", local);
 				
