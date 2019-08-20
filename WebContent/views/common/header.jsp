@@ -193,7 +193,7 @@ header article{
 	height: 100%;
 	width:35%;
 	position: absolute;
-top:0;
+	top:0;
 
 	}
 
@@ -324,7 +324,7 @@ top:0;
             <li id="sale">물건팔기</li>
             <li id="communtiy">커뮤니티</li>
             <li id="mypage">마이페이지</li>
-            <li id="customer">고객센터</li>
+            <li id="customer"><div onclick="gocustomer();" style="width: 100%;">고객센터</div></li>
         </ul>
     </nav>
     <hr>
@@ -363,7 +363,10 @@ top:0;
 		
 		<%}%>
 			
-			
+			// 고객센터로 이동
+			function gocustomer(){
+				location.href="<%=request.getContextPath()%>/customer_Go";
+			}
 		</script>
 </body>
 

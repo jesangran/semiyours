@@ -73,7 +73,7 @@ public class Notice_Dao {
 		ResultSet rset = null;
 		NoticeVo Detail = null;
 		
-		String query = prop.getProperty("niticeDetail");
+		String query = prop.getProperty("noticeDetail");
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, nNo);
@@ -154,58 +154,4 @@ public class Notice_Dao {
 		
 		return nCount;
 	}
-
-	/*
-	 * public ArrayList<NoticeVo> selectPageList(Connection conn, int currentPage,
-	 * int noticelimit) { PreparedStatement pstmt = null; ResultSet rset = null;
-	 * ArrayList<NoticeVo> list = null; System.out.println("2"); String query =
-	 * prop.getProperty("selectPageList"); System.out.println("3"); try { pstmt =
-	 * conn.prepareStatement(query);
-	 * 
-	 * int startRow = (currentPage - 1) * noticelimit + 1; int endRow = startRow +
-	 * noticelimit -1;
-	 * 
-	 * pstmt.setInt(1, 2); pstmt.setInt(2, startRow); pstmt.setInt(3, endRow);
-	 * 
-	 * rset = pstmt.executeQuery(); list = new ArrayList<NoticeVo>();
-	 * while(rset.next()) { NoticeVo nCount = new NoticeVo( rset.getInt("NOTICENO"),
-	 * rset.getString("NOTITLE"), rset.getString("NOTICECONTENT"),
-	 * rset.getDate("NOTICEENROLLDATE"), rset.getInt("NOTICECOUNT"),
-	 * rset.getInt("MANAGERNO")); list.add(nCount); }
-	 * 
-	 * } catch (Exception e) { e.printStackTrace(); }finally { close(rset);
-	 * close(pstmt); }
-	 * 
-	 * return list; }
-	 */
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

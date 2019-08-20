@@ -3,14 +3,14 @@ package customer.model.vo;
 import java.sql.Date;
 
 public class QnaVo {
-	private int qNo;
-	private String qType;
-	private String qTitle;
-	private String qcontent;
-	private int qWriter;
-	private Date qRnrolldate;
-	private String qAnswer;
-	private int qStatusNo;
+	private int qNo;          // 문의번호
+	private String qType;     // 문의유형
+	private String qTitle;    // 문의제목
+	private String qcontent;  // 문의내용
+	private int qWriter;      // 문의자
+	private Date qEnrolldate; // 문의일자
+	private String qAnswer;   // 답변 내용
+	private int qStatusNo;    // 문의 처리상태
 	
 	public QnaVo() {
 		// TODO Auto-generated constructor stub
@@ -24,7 +24,7 @@ public class QnaVo {
 		this.qTitle = qTitle;
 		this.qcontent = qcontent;
 		this.qWriter = qWriter;
-		this.qRnrolldate = qRnrolldate;
+		this.qEnrolldate = qRnrolldate;
 		this.qAnswer = qAnswer;
 		this.qStatusNo = qStatusNo;
 	}
@@ -70,11 +70,11 @@ public class QnaVo {
 	}
 
 	public Date getqRnrolldate() {
-		return qRnrolldate;
+		return qEnrolldate;
 	}
 
 	public void setqRnrolldate(Date qRnrolldate) {
-		this.qRnrolldate = qRnrolldate;
+		this.qEnrolldate = qRnrolldate;
 	}
 
 	public String getqAnswer() {
@@ -96,7 +96,6 @@ public class QnaVo {
 	@Override
 	public String toString() {
 		return "QnaVo [qNo=" + qNo + ", qType=" + qType + ", qTitle=" + qTitle + ", qcontent=" + qcontent + ", qWriter="
-				+ qWriter + ", qRnrolldate=" + qRnrolldate + ", qAnswer=" + qAnswer + ", qStatusNo=" + qStatusNo + "]";
+				+ qWriter + ", qEnrolldate=" + qEnrolldate + ", qAnswer=" + qAnswer + ", qStatusNo=" + qStatusNo + "]";
 	}
-	
 }

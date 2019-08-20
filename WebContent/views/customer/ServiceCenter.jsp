@@ -3,18 +3,9 @@
 <%@ page import="java.util.ArrayList, customer.model.vo.FaqVo, customer.model.vo.NoticeVo, customer.model.vo.PageInfo"%>
 <%
 /* 	ArrayList<FaqVo> FaqList = (ArrayList<FaqVo>) request.getAttribute("FaqList");
-	PageInfo pInf = (PageInfo)request.getAttribute("pInf");
-	/* ArrayList<NoticeVo> nList = (ArrayList<NoticeVo>) request.getAttribute("nList");	 */
-
-/* 	int FaqCount = pInf.getFaqCount();
-	int currentPage = pInf.getCurrentPage();
-	int maxPage = pInf.getMaxPage();
-	int startPage = pInf.getStartPage();
-	int endPage = pInf.getEndPage();
-	int Faqlimit = pInf.getFaqlimit();
-	int pagingBarSize = pInf.getPagingBarSize(); */
+	ArrayList<NoticeVo> nList = (ArrayList<NoticeVo>) request.getAttribute("nList");
+	PageInfo pInf = (PageInfo)request.getAttribute("pInf");*/
 %>
-
 <script>
 var tab_urls = {
 	"#FAQ_List_outer"   : "<%=request.getContextPath()%>/faqList.no",
@@ -70,8 +61,8 @@ var tab_urls = {
 					<%-- <%@ include file="/views/customer/notice/noticeList.jsp"%> --%>
 				</div>
 				<div class="imsi_outer" id="Ajax_outer">
-					<div id="content"></div>
 					<button id="back" style="float:right;">이전으로</button>
+					<div id="content"></div>
 				</div>
 			</div>
 		</div>

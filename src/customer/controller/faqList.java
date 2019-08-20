@@ -74,8 +74,7 @@ public class faqList extends HttpServlet {
 				}else {
 					endPage = maxPage;
 				}
-				
-				System.out.println(FaqCount + " , " + limit + " = " + maxPage);
+
 				PageInfo pInf = new PageInfo(FaqCount, limit, pagingBarSize, currentPage, maxPage, startPage, endPage);
 				
 				// ------- 페이징바 처리 끝 -------

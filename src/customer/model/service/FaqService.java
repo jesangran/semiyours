@@ -9,16 +9,6 @@ import customer.model.vo.FaqVo;
 import static common.JDBCTemplate.*;
 public class FaqService {
 	
-	/*
-	public int getNoticeCount() {
-		Connection conn = getConnection();
-		
-		int NoticeCount = new FAQ_Dao().getNoticecount(conn);
-		
-		return NoticeCount;
-	}
-	*/
-
 	public FaqVo faqDetail(int fno) {
 		Connection conn = getConnection();
 		
