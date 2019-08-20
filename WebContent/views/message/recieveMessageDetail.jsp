@@ -55,7 +55,7 @@
 				</tr>
 				<tr>
 					<td>발신인</td>
-					<td id="mSender"><%=msg.getmSender() %></td>
+					<td id="mSender"><%=msg.getNickname() %></td>
 				</tr>
 				<tr>
 					<td>발신일자</td>

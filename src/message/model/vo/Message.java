@@ -16,25 +16,10 @@ public class Message {
 	
 	public Message() {}
 
-	public Message(int mNo, int mOwner, String mTitle, String mContent, int mSender, Date mEnrollDate,
-			char mDeleteYN, char mCondition) {
+	//수신함, 발신함
+	public Message(int mNo, String mTitle, String mContent, String nickname, Date mEnrollDate, char mCondition) {
 		super();
 		this.mNo = mNo;
-		this.mOwner = mOwner;
-		this.mTitle = mTitle;
-		this.mContent = mContent;
-		this.mSender = mSender;
-		this.mEnrollDate = mEnrollDate;
-		this.mDeleteYN = mDeleteYN;
-		this.mCondition = mCondition;
-	}
-		
-	
-	public Message(int mNo, int mOwner, String mTitle, String mContent, String nickname, Date mEnrollDate,
-			char mCondition) {
-		super();
-		this.mNo = mNo;
-		this.mOwner = mOwner;
 		this.mTitle = mTitle;
 		this.mContent = mContent;
 		this.nickname = nickname;
@@ -42,45 +27,20 @@ public class Message {
 		this.mCondition = mCondition;
 	}
 	
-	
-	
-
-	public Message(int mNo, int mOwner, String mTitle, Date mEnrollDate, char mCondition) {
+	//수신상세조회	
+	public Message(String mTitle, String mContent, String nickname, Date mEnrollDate) {
 		super();
-		this.mNo = mNo;
-		this.mOwner = mOwner;
-		this.mTitle = mTitle;
-		this.mEnrollDate = mEnrollDate;
-		this.mCondition = mCondition;
-	}
-
-	public Message(int mNo, int mOwner, String mTitle, String mContent, int mSender, Date mEnrollDate,
-			char mCondition) {
-		super();
-		this.mNo = mNo;
-		this.mOwner = mOwner;
 		this.mTitle = mTitle;
 		this.mContent = mContent;
-		this.mSender = mSender;
+		this.nickname = nickname;
 		this.mEnrollDate = mEnrollDate;
-		this.mCondition = mCondition;
 	}
+	
 
-	public Message(int mOwner, String mTitle, String mContent, int mSender, Date mEnrollDate, char mCondition) {
-		super();
-		this.mOwner = mOwner;
-		this.mTitle = mTitle;
-		this.mContent = mContent;
-		this.mSender = mSender;
-		this.mEnrollDate = mEnrollDate;
-		this.mCondition = mCondition;
-	}
-	
-	
-	
 	public int getmNo() {
 		return mNo;
 	}
+
 
 	public void setmNo(int mNo) {
 		this.mNo = mNo;
