@@ -1,8 +1,6 @@
 package deal.model.service;
 
-import static common.JDBCTemplate.commit;
-import static common.JDBCTemplate.getConnection;
-import static common.JDBCTemplate.rollback;
+import static common.JDBCTemplate.*;
 
 import java.io.File;
 import java.sql.Connection;
@@ -20,6 +18,7 @@ public class DealService {
 	public DealService() {
 		super();
 	}
+
 
 	public ArrayList<Category1> selectCategory1() {
 		Connection conn = getConnection();
@@ -61,6 +60,13 @@ public class DealService {
 
 	}
 
+	public ArrayList<Deal> selectList(int begin, int limit, String local) {
+		Connection conn = getConnection();
+		ArrayList<Deal> dList = null;
+		dList = new DealDao().selectLocalDealList(conn, begin, limit, local);
+
+		return dList;
+	}
 
 	public ArrayList<DealAttachment> selectDFList(int begin, int limit, String local) {
 		Connection conn = getConnection();

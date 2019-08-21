@@ -33,6 +33,24 @@ public class DealDao {
 		}
 	}
 
+	public int updateStatus(Connection conn, int dealNo, int statusNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = prop.getProperty("updateStatus");
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, statusNo);
+			pstmt.setInt(2, dealNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
 	public ArrayList<Category1> selectCategory1(Connection conn) {
 		Statement stmt = null;
 		ResultSet rset = null;
@@ -119,7 +137,6 @@ public class DealDao {
 		return result;
 	}
 
-
 	public int getDealCount(Connection conn, String local) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -140,7 +157,7 @@ public class DealDao {
 		}
 		return count;
 	}
-	
+
 	public int getDealCount(Connection conn, String keyword, String local) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -164,9 +181,7 @@ public class DealDao {
 		}
 		return count;
 	}
-	
-	
-	
+
 	public Deal selectDeal(Connection conn, int dealNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -183,18 +198,16 @@ public class DealDao {
 						rset.getString("DEPT1_NAME"), rset.getString("DEPT2_NAME"), rset.getString("DEAL_LOCAL"),
 						rset.getInt("PRICE"), rset.getInt("DEAL_TYPE"), rset.getInt("VIEWCOUNT"), rset.getInt("R_TYPE"),
 						rset.getString("GNAME"));
-			}
 
-		} catch (Exception e) {
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(rset);
 			close(pstmt);
 		}
-
 		return deal;
 	}
-
 
 	public ArrayList<DealAttachment> selectFile(Connection conn, int dealNo) {
 		PreparedStatement pstmt = null;
@@ -239,6 +252,27 @@ public class DealDao {
 		return dno;
 	}
 
+	public ArrayList<Deal> selectLocalDealList(Connection conn, int begin, int limit, String local) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Deal> dList = new ArrayList<Deal>();
+		String query = prop.getProperty("selectLDList");
+		System.out.println(query);
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, local + "%");
+			pstmt.setInt(2, begin);
+			pstmt.setInt(3, limit);
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				dList.add(new Deal(rset.getInt(2), rset.getString(3), rset.getInt(4), rset.getInt(5), rset.getInt(6),
+						rset.getString(7)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dList;
+	}
 
 	public ArrayList<DealAttachment> selectLocalDaList(Connection conn, int begin, int limit, String local) {
 		PreparedStatement pstmt = null;
@@ -260,65 +294,44 @@ public class DealDao {
 		return daList;
 	}
 
+	public int increaseViewCount(Connection conn, int dealNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = prop.getProperty("increaseViewCount");
+		System.out.println(query);
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, dealNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
 
+	public ArrayList<Local> selectLocal(Connection conn) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		ArrayList<Local> lList = new ArrayList<Local>();
+		String query = prop.getProperty("selectLocal");
 
-   public int increaseViewCount(Connection conn, int dealNo) {
-      PreparedStatement pstmt = null;
-      int result = 0;
-      String query = prop.getProperty("increaseViewCount");
-      System.out.println(query);
-      try {
-         pstmt = conn.prepareStatement(query);
-         pstmt.setInt(1, dealNo);
-         result = pstmt.executeUpdate();
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         close(pstmt);
-      }
-      return result;
-   }
+		try {
+			stmt = conn.createStatement();
+			rset = stmt.executeQuery(query);
+			while (rset.next()) {
+				lList.add(new Local(rset.getInt(1), rset.getString(2), rset.getString(3)));
+			}
 
-   public ArrayList<Local> selectLocal(Connection conn) {
-      Statement stmt = null;
-      ResultSet rset = null;
-      ArrayList<Local> lList = new ArrayList<Local>();
-      String query = prop.getProperty("selectLocal");
-
-      try {
-         stmt = conn.createStatement();
-         rset = stmt.executeQuery(query);
-         while (rset.next()) {
-            lList.add(new Local(rset.getInt(1), rset.getString(2), rset.getString(3)));
-         }
-
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         close(rset);
-         close(stmt);
-      }
-      return lList;
-   }
-
-   public int updateStatus(Connection conn, int dealNo, int statusNo) {
-      PreparedStatement pstmt = null;
-      int result = 0;
-      String query = prop.getProperty("updateStatus");
-      try {
-         pstmt = conn.prepareStatement(query);
-         pstmt.setInt(1, statusNo);
-         pstmt.setInt(2, dealNo);
-         result = pstmt.executeUpdate();
-
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         close(pstmt);
-      }
-      return result;
-   }
-
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		return lList;
+	}
 
 	public int deleteDealfile(Connection conn, int dealNo) {
 		PreparedStatement pstmt = null;
@@ -371,7 +384,7 @@ public class DealDao {
 			pstmt.setString(3, da.getDaPath());
 			pstmt.setInt(4, dealNo);
 			pstmt.setInt(5, da.getFileLevel());
-			result=pstmt.executeUpdate();
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -381,73 +394,67 @@ public class DealDao {
 	}
 
 	public ArrayList<DealAttachment> selectDeletedFileName(Connection conn, int dealNo) {
-		PreparedStatement pstmt= null;
+		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<DealAttachment> deleteList = new ArrayList<DealAttachment>();
 		String query = prop.getProperty("selectDeletedFileName");
 		try {
-			pstmt=conn.prepareStatement(query);
+			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, dealNo);
-			rset=pstmt.executeQuery();
-			while(rset.next()) {
-				deleteList.add(new DealAttachment(rset.getString(3),rset.getString(4)));
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				deleteList.add(new DealAttachment(rset.getString(3), rset.getString(4)));
 			}
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(rset);
 			close(pstmt);
 		}
 		return deleteList;
 	}
-	
+
 	public int insertComment(Connection conn, DealComment dComment) {
 		PreparedStatement pstmt = null;
-		int result=0;
-		String query=prop.getProperty("insertComment");
+		int result = 0;
+		String query = prop.getProperty("insertComment");
 		try {
-			pstmt=conn.prepareStatement(query);
-			pstmt.setInt(1,Integer.parseInt(dComment.getDealCommWriter()));
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, Integer.parseInt(dComment.getDealCommWriter()));
 			pstmt.setString(2, dComment.getDealCommContent());
 			pstmt.setInt(3, dComment.getRefDealNo());
-			result=pstmt.executeUpdate();
-		}catch(SQLException e) {
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(pstmt);
 		}
 		return result;
 	}
 
-	public ArrayList<DealComment> selectComment(Connection conn,int dealNo) {
+	public ArrayList<DealComment> selectComment(Connection conn, int dealNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<DealComment> commList = new ArrayList<DealComment>();
-		String query =prop.getProperty("selectComment");
+		String query = prop.getProperty("selectComment");
 		try {
-			pstmt=conn.prepareStatement(query);
+			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, dealNo);
-			rset=pstmt.executeQuery();
-			while(rset.next()) {
-				commList.add(new DealComment(rset.getInt(1),
-											rset.getString(2),
-											rset.getString(3),
-											rset.getTimestamp(4),
-											rset.getString(5).charAt(0),
-											rset.getInt(6),
-											rset.getTimestamp(7),
-											rset.getInt(8)));
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				commList.add(new DealComment(rset.getInt(1), rset.getString(2), rset.getString(3), rset.getTimestamp(4),
+						rset.getString(5).charAt(0), rset.getInt(6), rset.getTimestamp(7), rset.getInt(8)));
 			}
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(rset);
 			close(pstmt);
 		}
 		return commList;
 	}
 
-	public ArrayList<Deal> selectCategoryList(Connection conn,int start,int limit,String cName,String local) {
+	public ArrayList<Deal> selectCategoryList(Connection conn, int start, int limit, String cName, String local) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<Deal> csList = new ArrayList<Deal>();
@@ -461,10 +468,11 @@ public class DealDao {
 			pstmt.setInt(5, limit);
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
-				csList.add(new Deal(rset.getInt(2), rset.getString(3), rset.getInt(4), rset.getInt(5), rset.getInt(6),rset.getString(7),rset.getString("DEPT1_NAME"),rset.getString("DEPT2_NAME")));
-				
+				csList.add(new Deal(rset.getInt(2), rset.getString(3), rset.getInt(4), rset.getInt(5), rset.getInt(6),
+						rset.getString(7), rset.getString("DEPT1_NAME"), rset.getString("DEPT2_NAME")));
+
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -477,17 +485,17 @@ public class DealDao {
 		ResultSet rset = null;
 		ArrayList<DealAttachment> cdaList = new ArrayList<DealAttachment>();
 		String query = prop.getProperty("selectCDAList");
-		DealAttachment da=null;
+		DealAttachment da = null;
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, cName);
 			pstmt.setString(2, cName);
-			pstmt.setString(3, local+"%");
+			pstmt.setString(3, local + "%");
 			pstmt.setInt(4, start);
 			pstmt.setInt(5, limit);
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
-				da= new DealAttachment();
+				da = new DealAttachment();
 				da.setDaChange(rset.getString(4));
 				cdaList.add(da);
 			}
@@ -499,16 +507,16 @@ public class DealDao {
 
 	public int updateComment(Connection conn, String content, int cNo) {
 		PreparedStatement pstmt = null;
-		int result=0;
-		String query=prop.getProperty("updateComment");
+		int result = 0;
+		String query = prop.getProperty("updateComment");
 		try {
-			pstmt=conn.prepareStatement(query);
-			pstmt.setString(1,content);
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, content);
 			pstmt.setInt(2, cNo);
-			result=pstmt.executeUpdate();
-		}catch(SQLException e) {
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(pstmt);
 		}
 		return result;
@@ -516,15 +524,15 @@ public class DealDao {
 
 	public int deleteComment(Connection conn, int cNo) {
 		PreparedStatement pstmt = null;
-		int result=0;
-		String query=prop.getProperty("deleteComment");
+		int result = 0;
+		String query = prop.getProperty("deleteComment");
 		try {
-			pstmt=conn.prepareStatement(query);
+			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, cNo);
-			result=pstmt.executeUpdate();
-		}catch(SQLException e) {
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(pstmt);
 		}
 		return result;
@@ -537,18 +545,19 @@ public class DealDao {
 		String query = prop.getProperty("selectSDList");
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1,keyword);
-			pstmt.setString(2,keyword);
-			pstmt.setString(3,keyword);
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, keyword);
+			pstmt.setString(3, keyword);
 			pstmt.setString(4, local + "%");
 			pstmt.setInt(5, start);
 			pstmt.setInt(6, limit);
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
-				sdList.add(new Deal(rset.getInt(2), rset.getString(3), rset.getInt(4), rset.getInt(5), rset.getInt(6),rset.getString(7)));
-				
+				sdList.add(new Deal(rset.getInt(2), rset.getString(3), rset.getInt(4), rset.getInt(5), rset.getInt(6),
+						rset.getString(7)));
+
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -561,18 +570,18 @@ public class DealDao {
 		ResultSet rset = null;
 		ArrayList<DealAttachment> sdaList = new ArrayList<DealAttachment>();
 		String query = prop.getProperty("selectSDAList");
-		DealAttachment da=null;
+		DealAttachment da = null;
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1,keyword);
-			pstmt.setString(2,keyword);
-			pstmt.setString(3,"%"+keyword+"%");
-			pstmt.setString(4, local+"%");
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, keyword);
+			pstmt.setString(3, "%" + keyword + "%");
+			pstmt.setString(4, local + "%");
 			pstmt.setInt(5, start);
 			pstmt.setInt(6, limit);
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
-				da= new DealAttachment();
+				da = new DealAttachment();
 				da.setDaChange(rset.getString(4));
 				sdaList.add(da);
 			}
@@ -581,9 +590,5 @@ public class DealDao {
 		}
 		return sdaList;
 	}
-
-	
-
-
 
 }
