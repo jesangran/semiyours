@@ -53,16 +53,13 @@ span{
 	<%@ include file="../common/header.jsp"%>
 	
 	
-	
-	
 	<section>
 		<%@ include file="../common/myPageSide.jsp"%>
 		<p>&nbsp;&nbsp;&nbsp;<span>마이페이지</span><span>&nbsp; > &nbsp;</span><span>정보수정</span><p>
 		<div class="formWrapper">
 	
 			<form method="post" action="<%=request.getContextPath()%>/encryptPwd.me" id="pwdCheckForm">
-				<div >
-				
+				<div >			
 					<div class="form-group">
 						<label>정보수정을 위해 비밀번호를 입력해주세요</label><br>
 						<input type="password" name="checkPwd" class="form-input pwd">

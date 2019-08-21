@@ -462,10 +462,9 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 		
 		//쪽지보내기
 		$("#seller").click(function() {
-			var mOwner = <%=deal.getDealWriter()%>;
-			location.href="<%=request.getContextPath()%>/insertMsgForm.me?mOwner=<%=deal.getDealWriter()%>";
+			window.open("insertMsgForm.me?mOwner=<%=deal.getDealWriter()%>", 
+					"sendMsg", "width=600px, height = 400px, left=800px, top=300px, scrollbars=yes, resizable=no");
 		});
-		
 		
 	});
 	

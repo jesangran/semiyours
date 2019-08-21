@@ -136,6 +136,19 @@ public class MessageService {
 		return sendMsgCount;
 	}
 
+	
+	/**
+	 * 미열람 수신 쪽지갯수 새기
+	 * @param mowner
+	 * @return count
+	 */
+	public int newCountMsg(int mowner) {
+		Connection conn = getConnection();
+		int count = new MessageDao().newCountMsg(conn, mowner);
+		
+		return count;
+	}
+
 
 
 

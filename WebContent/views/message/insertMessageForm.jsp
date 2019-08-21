@@ -115,6 +115,7 @@
     		var mcontent = $("#mcontent").val();
     		if(mcontent.trim() == ""){
 				alert("내용을 입력하여 주세요.");
+				focus();
 				return false;
 			} 
     	});
