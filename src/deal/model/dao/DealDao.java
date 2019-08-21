@@ -177,21 +177,24 @@ public class DealDao {
 			pstmt.setInt(1, dealNo);
 			rset = pstmt.executeQuery();
 			if (rset.next()) {
-				deal = new Deal(rset.getInt("DEAL_NO"),rset.getInt("DEAL_WRITER"),rset.getString("NICKNAME"), rset.getString("DEAL_TITLE"),
-						rset.getString("DEAL_CONTENT"), rset.getTimestamp("DEAL_ENROLLDATE"), rset.getInt("DEAL_COUNT"),
-						rset.getInt("DEAL_STATUS"), rset.getString("DEPT1_NAME"), rset.getString("DEPT2_NAME"),
-						rset.getString("DEAL_LOCAL"), rset.getInt("PRICE"), rset.getInt("DEAL_TYPE"),
-						rset.getInt("VIEWCOUNT"), rset.getInt("R_TYPE"), rset.getString("GNAME"));
-
+				deal = new Deal(rset.getInt("DEAL_NO"), rset.getInt("DEAL_WRITER"), rset.getString("NICKNAME"),
+						rset.getString("DEAL_TITLE"), rset.getString("DEAL_CONTENT"),
+						rset.getTimestamp("DEAL_ENROLLDATE"), rset.getInt("DEAL_COUNT"), rset.getInt("DEAL_STATUS"),
+						rset.getString("DEPT1_NAME"), rset.getString("DEPT2_NAME"), rset.getString("DEAL_LOCAL"),
+						rset.getInt("PRICE"), rset.getInt("DEAL_TYPE"), rset.getInt("VIEWCOUNT"), rset.getInt("R_TYPE"),
+						rset.getString("GNAME"));
 			}
-		} catch (SQLException e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			close(rset);
 			close(pstmt);
 		}
+
 		return deal;
 	}
+
 
 	public ArrayList<DealAttachment> selectFile(Connection conn, int dealNo) {
 		PreparedStatement pstmt = null;
@@ -236,26 +239,6 @@ public class DealDao {
 		return dno;
 	}
 
-	public ArrayList<Deal> selectLocalDealList(Connection conn, int begin, int limit, String local) {
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		ArrayList<Deal> dList = new ArrayList<Deal>();
-		String query = prop.getProperty("selectLDList");
-		System.out.println(query);
-		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, local + "%");
-			pstmt.setInt(2, begin);
-			pstmt.setInt(3, limit);
-			rset = pstmt.executeQuery();
-			while (rset.next()) {
-				dList.add(new Deal(rset.getInt(2), rset.getString(3), rset.getInt(4), rset.getInt(5), rset.getInt(6),rset.getString(7)));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return dList;
-	}
 
 	public ArrayList<DealAttachment> selectLocalDaList(Connection conn, int begin, int limit, String local) {
 		PreparedStatement pstmt = null;
@@ -326,13 +309,124 @@ public class DealDao {
 			pstmt.setInt(2, dealNo);
 			result = pstmt.executeUpdate();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
-		return result;
-	}
+
+   public int increaseViewCount(Connection conn, int dealNo) {
+      PreparedStatement pstmt = null;
+      int result = 0;
+      String query = prop.getProperty("increaseViewCount");
+      System.out.println(query);
+      try {
+         pstmt = conn.prepareStatement(query);
+         pstmt.setInt(1, dealNo);
+         result = pstmt.executeUpdate();
+      } catch (SQLException e) {
+         e.printStackTrace();
+      } finally {
+         close(pstmt);
+      }
+      return result;
+   }
+
+   public ArrayList<Local> selectLocal(Connection conn) {
+      Statement stmt = null;
+      ResultSet rset = null;
+      ArrayList<Local> lList = new ArrayList<Local>();
+      String query = prop.getProperty("selectLocal");
+
+      try {
+         stmt = conn.createStatement();
+         rset = stmt.executeQuery(query);
+         while (rset.next()) {
+            lList.add(new Local(rset.getInt(1), rset.getString(2), rset.getString(3)));
+         }
+
+      } catch (SQLException e) {
+         e.printStackTrace();
+      } finally {
+         close(rset);
+         close(stmt);
+      }
+      return lList;
+   }
+
+   public int updateStatus(Connection conn, int dealNo, int statusNo) {
+      PreparedStatement pstmt = null;
+      int result = 0;
+      String query = prop.getProperty("updateStatus");
+      try {
+         pstmt = conn.prepareStatement(query);
+         pstmt.setInt(1, statusNo);
+         pstmt.setInt(2, dealNo);
+         result = pstmt.executeUpdate();
+
+      } catch (SQLException e) {
+         e.printStackTrace();
+      } finally {
+         close(pstmt);
+      }
+      return result;
+   }
+
+   public int deleteDealfile(Connection conn, int dealNo) {
+      PreparedStatement pstmt = null;
+      int result = 0;
+      String query = prop.getProperty("deleteDealfile");
+      try {
+         pstmt = conn.prepareStatement(query);
+         pstmt.setInt(1, dealNo);
+         result = pstmt.executeUpdate();
+      } catch (SQLException e) {
+         e.printStackTrace();
+      } finally {
+         close(pstmt);
+      }
+      return result;
+   }
+
+   public int updateDeal(Connection conn, Deal deal) {
+      PreparedStatement pstmt = null;
+      int result = 0;
+      String query = prop.getProperty("updateDeal");
+      try {
+         pstmt = conn.prepareStatement(query);
+         pstmt.setString(1, deal.getDealTitle());
+         pstmt.setString(2, deal.getDealContent());
+         pstmt.setInt(3, deal.getDealCount());
+         pstmt.setInt(4, Integer.parseInt(deal.getDept1()));
+         pstmt.setInt(5, Integer.parseInt(deal.getDept2()));
+         pstmt.setString(6, deal.getDealLocal());
+         pstmt.setInt(7, deal.getPrice());
+         pstmt.setInt(8, deal.getDealType());
+         pstmt.setInt(9, deal.getDealNo());
+         result = pstmt.executeUpdate();
+      } catch (SQLException e) {
+         e.printStackTrace();
+      } finally {
+         close(pstmt);
+      }
+      return result;
+   }
+
+   public int insertUpdateFile(Connection conn, int dealNo, DealAttachment da) {
+      PreparedStatement pstmt = null;
+      int result = 0;
+      String query = prop.getProperty("insertUpdateFile");
+      try {
+         pstmt = conn.prepareStatement(query);
+         pstmt.setString(1, da.getDaOrigin());
+         pstmt.setString(2, da.getDaChange());
+         pstmt.setString(3, da.getDaPath());
+         pstmt.setInt(4, dealNo);
+         pstmt.setInt(5, da.getFileLevel());
+         result=pstmt.executeUpdate();
+      } catch (SQLException e) {
+         e.printStackTrace();
+      } finally {
+         close(pstmt);
+      }
+      return result;
+   }
+
 
 	public int deleteDealfile(Connection conn, int dealNo) {
 		PreparedStatement pstmt = null;

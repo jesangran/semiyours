@@ -56,7 +56,8 @@
 		<br>
 		<div id="btnarea">
 			<button id="okbtn">네, 탈퇴할래요</button>
-			<button id="nobtn">아니요</button>
+			<button id="nobtn" onclick="history.back(-1);">아니요</button>
+		
 		</div>
 	</div>
 	
@@ -69,9 +70,7 @@
 				location.href = "<%=request.getContextPath()%>";
 			}
 		});
-		$("#nobtn").onclick(function() {
-			location.href ="<%=request.getContextPath()%>";
-		});
+
 	
 	</script>
 	
