@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import member.model.vo.Member;
 import message.model.service.MessageService;
 import message.model.vo.Message;
 
@@ -22,12 +23,15 @@ public class MessageSendDetailServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		int  msender = ((Member)request.getSession().getAttribute("loginUser")).getUserNo(); 
 		int mno = Integer.parseInt(request.getParameter("mno"));
+		
 		MessageService mService = new MessageService();
-		//쪽지 조회
-		Message msg = mService.SendselectMsg(mno);
+		Message msg = mService.SendselectMsg(msender ,mno);
 		System.out.println("[msg] : " + msg);
 		String page = "";
+		
 		if (msg != null) { 
 			page = "views/message/sendMessageDetail.jsp";
 			request.setAttribute("msg", msg);

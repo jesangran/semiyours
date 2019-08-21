@@ -290,7 +290,9 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 	                <table >
 	  					<tr>
 	                        <td class="title">판매자</td>
-	                       
+                      
+
+           
 	                       <td class="dealInfo" id="seller"  colspan=3 >
 	                    		<%=deal.getNickname()%>
 	                    		(<%=deal.getDealerGrade()%>회원)
@@ -426,6 +428,7 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 		
 		//판매상태 변경
 		<%if(loginUser.getUserNo()==deal.getDealWriter()){ %>
+
 		$(".dealStatus div div").mouseenter(function(){
 			$(this).css("cursor","pointer");
 			$(this).click(function(){
@@ -505,6 +508,12 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 		         }
 		      });
 		   })
+		
+		//쪽지보내기
+		$("#seller").click(function() {
+			window.open("insertMsgForm.me?mOwner=<%=deal.getDealWriter()%>", 
+					"sendMsg", "width=600px, height = 400px, left=800px, top=300px, scrollbars=yes, resizable=no");
+		});
 		
 	});
 	

@@ -2,9 +2,20 @@
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="message.model.vo.Message"%>
+<%@page import="message.model.vo.PageInfo"%>
 <%
 	ArrayList<Message> mList = (ArrayList<Message>) request.getAttribute("mList");
+	PageInfo pInf = (PageInfo)request.getAttribute("pInf");
 	
+		int sendMsgCount = pInf.getMsgCount();
+		int currentPage = pInf.getCurrentPage();
+		int maxPage =pInf.getMaxPage();
+		int startPage = pInf.getStartPage();
+		int endPage = pInf.getEndPage();
+		int limit = pInf.getLimit();
+		int pageBarSize = pInf.getPagingBarSize();
+		System.out.println(pInf);
+		System.out.println(mList);
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -51,40 +62,14 @@ td, th {
 /* 페이징 */
 .paging {
 	margin-top: 15px;
+	text-align: Center;
 }
 
 .paging ul {
 	text-align: Center;
 }
 
-.paging ul li {
-	display: inline-block;
-	margin-right: 2px;
-	vertical-align: top;
-}
 
-.paging ul li:last-child {
-	margin: 0;
-}
-
-.paging ul li a {
-	display: block;
-	font-size: 14px;
-	color: #333;
-	text-decoration: none;
-	width: 24px;
-	height: 24px;
-	border: 1px solid #ddd;
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-}
-
-.paging ul li.on a, .paging ul li a:hover {
-	background: #84bd00;
-	color: #fff;
-	border: 1px solid #84bd00;
-}
 </style>
 </head>
 <body>
@@ -105,11 +90,11 @@ td, th {
 			</colgroup>
 			<tr>
 				<th>열람</th>
-				<th>번호</th>
+				<th>NO</th>
 				<th>제목</th>
 				<th>수신자</th>
 				<th>수신일자</th>
-				<th>삭제</th>
+				<th>-</th>
 			</tr>
 			<tbody>
 				<% if(mList.isEmpty()){ %>
@@ -122,9 +107,10 @@ td, th {
 					<td><%=m.getmCondition() %></td>
 					<td><%=m.getmNo() %></td>
 					<td class="msgList"><%=m.getmTitle() %></td>
-					<td><%=m.getmSender()%></td>
+					<td><%=m.getNickname()%></td>
 					<td><%=m.getmEnrollDate() %></td>
-					<td><button class="deletebtn">삭제</button></td>
+					<td>-</td>
+					<!-- <td><button class="deletebtn">삭제</button></td> -->
 				</tr>
 					<%} %>
 				<%} %>
@@ -132,17 +118,36 @@ td, th {
 		</table>
 	</div>
 	<div class="paging">
-		<ul>
-			<li class="prev"><a href="#;">&lt;</a></li>
-
-			<li class="on"><a href="">1</a></li>
-			<li><a href="">2</a></li>
-			<li><a href="">3</a></li>
-			<li><a href="">4</a></li>
-			<li><a href="">5</a></li>
-
-			<li class="next"><a href="#;">&gt;</a></li>
-		</ul>
+		<span class="pagingBtn clickBtn" onclick="location.href='<%= request.getContextPath() %>/sendmsg.me?currentPage=1'">&lt;&lt;</span>
+		<!-- 이전 페이지로(<) -->
+			<% if(currentPage <= 1) { %>
+				<span class="pagingBtn">&lt;</span>
+			<% } else{ %>
+				<span class="pagingBtn clickBtn" 
+					onclick="location.href='<%= request.getContextPath() %>/sendmsg.me?currentPage=<%= currentPage-1 %>'">&lt;</span>
+			<% } %>
+			
+			<!-- 페이지 목록 -->
+			<% for(int p = startPage; p <= endPage; p++){ %>
+				<% if(p == currentPage) { %>
+					<span class="pagingBtn selectBtn"><%= p %></span>
+				<% } else{ %>
+					<span class="pagingBtn clickBtn" 
+						onclick="location.href='<%= request.getContextPath() %>/sendmsg.me?currentPage=<%= p %>'"><%=p%></span>
+				<% } %>
+			<%} %>
+			
+			<!-- 다음 페이지로(>) -->
+			<% if(currentPage >= maxPage){ %>
+				<span class="pagingBtn"> &gt; </span>
+			<% } else{ %>
+				<span class="pagingBtn clickBtn" 
+					onclick="location.href='<%= request.getContextPath() %>/sendmsg.me?currentPage=<%= currentPage+1 %>'">&gt;</span>
+			<% } %>
+			
+			<!-- 맨 끝으로(>>) -->
+			<span class="pagingBtn clickBtn"
+				onclick="location.href='<%= request.getContextPath() %>/sendmsg.me?currentPage=<%= maxPage %>'">&gt;&gt;</span>
 	</div>
 
 	<script>
@@ -162,7 +167,7 @@ td, th {
 			location.href="senddetailmsg.me?mno="+mno;
 		});
 		
-		$(document).on("click", ".deletebtn", function() {
+		/* $(document).on("click", ".deletebtn", function() {
 			var mno = $(this).parent().parent().children().eq(1).text();
 			console.log(mno);
 			var txt;
@@ -186,7 +191,7 @@ td, th {
 				txt = "취소합니다.";
 			}
 			
-		});
+		}); */
 		
 		
 	});

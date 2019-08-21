@@ -55,7 +55,7 @@
 				</tr>
 				<tr>
 					<td>수신인</td>
-					<td id="mSender"><%=msg.getmSender() %></td>
+					<td id="mSender"><%=msg.getNickname() %></td>
 				</tr>
 				<tr>
 					<td>수신일자</td>
@@ -63,7 +63,7 @@
 				</tr>
 				<tr>
 					<td>내용</td>
-					<td><%=msg.getmContent() %></td>
+					<td id="mContent"><%=msg.getmContent() %></td>
 				</tr>
 				<tr>
 					<td></td>

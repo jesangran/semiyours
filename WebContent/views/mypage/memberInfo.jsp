@@ -30,10 +30,10 @@ body {
 	border: 1px solid rgba(0, 0, 0, 0.2);
 	border-radius: 5px;
 }
-.form-button {width: 90px; border-radius: 5px; box-shadow: 10px; font-size:14px;}
+.form-button {width: 90px; border-radius: 5px; box-shadow: 10px; font-size:12px;}
 .address {width: 400px;}
-#goUpdateBtn,#goUpdatePwdFormBtn,#cancel{
-	width:30%;
+#goUpdateBtn,#goUpdatePwdFormBtn,#cancel, #godeleteMember{
+	width:20%;
 }
 .btns{
 	text-align: center;
@@ -87,6 +87,7 @@ body {
 					<button class="form-button" id="goUpdateBtn">수정 완료</button>
 					<button class="form-button" type="button" id="cancel" >취소</button>
 					<button class="form-button" type="button" id="goUpdatePwdFormBtn">비밀번호 변경</button>
+					<button class="form-button" type="button" id="godeleteMember">회원탈퇴</button>					
 				</div>
 				
 			</form>
@@ -106,6 +107,11 @@ body {
 	}
 	$("#goUpdatePwdFormBtn").click(function(){
 		location.href="pwdUpdateForm.jsp";
+	});
+	
+	//회원탈퇴
+	$("#godeleteMember").click(function() {
+		location.href ="checkDelete.jsp";
 	});
 	</script>
 	

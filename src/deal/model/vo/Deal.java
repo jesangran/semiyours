@@ -3,6 +3,7 @@ package deal.model.vo;
 import java.sql.Timestamp;
 
 public class Deal {
+
 	private int dealNo;
 	private int dealWriter;
 	private String nickname;
@@ -205,13 +206,83 @@ public class Deal {
 		this.dealType = dealType;
 	}
 
-	public String getDealerGrade() {
-		return dealerGrade;
-	}
+   public String getDealTitle() {
+      return dealTitle;
+   }
+   public void setDealTitle(String dealTitle) {
+      this.dealTitle = dealTitle;
+   }
+   public String getDealContent() {
+      return dealContent;
+   }
+   public void setDealContent(String dealContent) {
+      this.dealContent = dealContent;
+   }
+   public Timestamp getDealEnrollDate() {
+      return dealEnrollDate;
+   }
+   public void setDealEnrollDate(Timestamp dealEnrollDate) {
+      this.dealEnrollDate = dealEnrollDate;
+   }
+   public int getDealCount() {
+      return dealCount;
+   }
+   public void setDealCount(int dealCount) {
+      this.dealCount = dealCount;
+   }
+   public int getDealStatus() {
+      return dealStatus;
+   }
+   public void setDealStatus(int dealStatus) {
+      this.dealStatus = dealStatus;
+   }
+   public Timestamp getDealModifyDate() {
+      return dealModifyDate;
+   }
+   public void setDealModifyDate(Timestamp dealModifyDate) {
+      this.dealModifyDate = dealModifyDate;
+   }
+   public String getDept1() {
+      return dept1;
+   }
+   public void setDept1(String dept1) {
+      this.dept1 = dept1;
+   }
+   public String getDept2() {
+      return dept2;
+   }
+   public void setDept2(String dept2) {
+      this.dept2 = dept2;
+   }
+   public char getDeleteYN() {
+      return deleteYN;
+   }
+   public void setDeleteYN(char deleteYN) {
+      this.deleteYN = deleteYN;
+   }
+   public String getDealLocal() {
+      return dealLocal;
+   }
+   public void setDealLocal(String dealLocal) {
+      this.dealLocal = dealLocal;
+   }
+   public int getPrice() {
+      return price;
+   }
+   public void setPrice(int price) {
+      this.price = price;
+   }
+   public int getDealType() {
+      return dealType;
+   }
+   public void setDealType(int dealType) {
+      this.dealType = dealType;
+   }
 
-	public void setDealerGrade(String dealerGrade) {
-		this.dealerGrade = dealerGrade;
-	}
+   public String getDealerGrade() {
+      return dealerGrade;
+   }
+
 
 	public String getNickname() {
 		return nickname;
@@ -229,6 +300,5 @@ public class Deal {
 				+ ", deleteYN=" + deleteYN + ", dealLocal=" + dealLocal + ", price=" + price + ", dealType=" + dealType
 				+ ", viewCount=" + viewCount + ", rType=" + rType + ", dealerGrade=" + dealerGrade + "]";
 	}
-	
-	
+
 }
