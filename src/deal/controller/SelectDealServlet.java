@@ -40,11 +40,9 @@ public class SelectDealServlet extends HttpServlet {
 					local = local.split(" ")[0]+" "+local.split(" ")[1];
 				}
 			}
-		
 		 
 		ArrayList<Deal> dList = dService.selectList(start, limit,local);
 		ArrayList<DealAttachment> dfList = dService.selectDFList(start, limit,local);
-		//ArrayList<Local> lList = dService.selectLocal();
 		ArrayList<Category1> c1List = dService.selectCategory1();
 	
 		String page = "";
@@ -56,7 +54,6 @@ public class SelectDealServlet extends HttpServlet {
 			page = "index.jsp";
 			request.setAttribute("dList", dList);
 			request.setAttribute("dfList", dfList);
-			//request.setAttribute("lList", lList);
 			request.setAttribute("c1List", c1List);
 	
 			request.setAttribute("myLocal", local);

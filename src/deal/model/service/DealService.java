@@ -83,6 +83,13 @@ public class DealService {
 		int count = new DealDao().getDealCount(conn, local);
 		return count;
 	}
+	public int getDealCount(String keyword, String local) {
+		Connection conn = getConnection();
+		int count = new DealDao().getDealCount(conn,keyword, local);
+		return count;
+	}
+	
+	
 
 	public Deal selectDeal(int dealNo) {
 		Connection conn = getConnection();
@@ -199,6 +206,46 @@ public class DealService {
 
 		return cdaList;
 	}
+
+	public int updateComment(String content, int cNo) {
+		Connection conn=getConnection();
+		int result = new DealDao().updateComment(conn,content,cNo);
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
+	}
+
+	public int deleteComment(int cNo) {
+		Connection conn=getConnection();
+		int result = new DealDao().deleteComment(conn,cNo);
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
+	}
+
+	public ArrayList<Deal> selectSearchList(int start, int limit, String keyword, String local) {
+		Connection conn = getConnection();
+		ArrayList<Deal> sdList = new DealDao().selectSearchList(conn,start,limit,keyword,local);
+		
+		return sdList;
+	}
+
+	public ArrayList<DealAttachment> selectSearchDaList(int start, int limit, String keyword, String local) {
+		Connection conn = getConnection();
+		ArrayList<DealAttachment> sdaList = null;
+
+		sdaList = new DealDao().selectSearchDaList(conn, start, limit,keyword, local);
+
+		return sdaList;
+	}
+
+
 	
 	 
 

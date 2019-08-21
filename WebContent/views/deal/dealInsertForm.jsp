@@ -124,7 +124,7 @@ table {
 <body>
 <%@ include file="../../views/common/header.jsp"%>
 <form id="dealInsertForm" method='post' action="<%=request.getContextPath()%>/insert.de" enctype="multipart/form-data">
-<input type="hidden" name="uno" value="<%=loginUser.getUserNo()%>">
+
 <div class="outer">
 
     <div class="imgarea">

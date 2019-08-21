@@ -181,20 +181,24 @@ public class MemberDao {
 		return result;
 	}
 
-	public int deleteMember(Connection conn, int userno) {
+
+	public int updatePwd(Connection conn, String email, String pwd) {
 		PreparedStatement pstmt = null;
-		int result = 0;
-		String query = prop.getProperty("deleteMember");
+		int result =0;
+		String query = prop.getProperty("resetPwd");
+	
 		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, userno);
+			pstmt =conn.prepareStatement(query);
+		
+			pstmt.setString(1, pwd);
+			pstmt.setString(2, email);
 			result = pstmt.executeUpdate();
-		} catch (Exception e) {
+		}catch(SQLException e) {
 			e.printStackTrace();
-		} finally {
+		}finally {
 			close(pstmt);
 		}
-				
+
 		return result;
 	}
 

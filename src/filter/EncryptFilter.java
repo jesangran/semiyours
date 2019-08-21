@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import wrapper.EncryptWrapper;
 
-@WebFilter(filterName="encrypt", servletNames= {"JoinMemberServlet","LoginMemberServlet","UpdatePwdServlet","EncryptPwdServlet"})
+@WebFilter(filterName="encrypt", servletNames= {"JoinMemberServlet","LoginMemberServlet","UpdatePwdServlet","EncryptPwdServlet","ResetPwdServlet"})
 public class EncryptFilter implements Filter {
 	
     public EncryptFilter() {
