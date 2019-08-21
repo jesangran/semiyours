@@ -18,10 +18,12 @@ import customer.model.vo.PageInfo;
 
 
 @WebServlet("/faqList.no")
-public class faqList extends HttpServlet {
+public class faqListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public faqList() {super();}
+    public faqListServlet(){ 
+    	super(); 
+    }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
@@ -34,7 +36,7 @@ public class faqList extends HttpServlet {
 				 
 				
 				// 페이징 처리용 변수 선언
-				int limit = 10;          // 한 페이지에 보여질 게시글 수
+				int limit = 20;          // 한 페이지에 보여질 게시글 수
 				int pagingBarSize = 10;  // 보여질 페이징바의 페이지 개수
 
 				int currentPage = 0;     // 현재 페이지 번호를 표시할 변수
@@ -43,15 +45,15 @@ public class faqList extends HttpServlet {
 				int endPage = 0;         // 페이징바 끝 페이지 번호
 				
 				// currentPage - 현재 페이지 번호를 표시할 변수
-				if(request.getParameter("currentPage") == null) {
-					// 처름 게시판 목옥으로 화면 전환 시 1체이지가 보이도록 함.
+				if(request.getParameter("curpage") == null) {
+					// 처음 게시판 목록으로 화면 전환 시 1페이지 출력
 					
 					currentPage = 1;
 				}else {
-					// 아닌 경우, 현재 currentPage
-					currentPage = Integer.parseInt(request.getParameter("currentPage"));
+					// 아닌 경우, 현재 curpage
+					currentPage = Integer.parseInt(request.getParameter("curpage"));
 				}
-				
+				System.out.println(currentPage);
 				// maxPage - 총 페이지 수
 				// 게시글의 개수가 100개일 경우 필요 페이지 : 10페이지
 				// 게시글의 개수가 101개일 경우 필요 페이지 : 11페이지
@@ -63,12 +65,12 @@ public class faqList extends HttpServlet {
 				// 페이징바에 숫자가 10개씩 표시되는 경우
 				// 1, 11, 21, 31, ... -> 10(n-1) + 1
 				startPage = ((currentPage-1) / limit) * pagingBarSize + 1;
-				
+				System.out.println("fstartPage"+ startPage);
 				// endPage - 페이징바 끝 페이지 번호
 				// 페이징바에 숫자가 10개씩 표시되는 경우
 				// 10, 20, 30, 40, ...
 				endPage = startPage + pagingBarSize -1;
-				
+				System.out.println("fendPage"+ endPage);
 				if(maxPage > endPage) {
 					endPage = startPage + pagingBarSize - 1;
 				}else {
@@ -82,6 +84,9 @@ public class faqList extends HttpServlet {
 				// ------- 게시글 목록 조회 시작 -------
 				
 				ArrayList<FaqVo> FaqList = fService.FaqSelectList(currentPage, limit);
+				
+				System.out.println("FAQ 리스트 : 테스트");
+				System.out.println("페이징 정보 :" + pInf);	
 				
 				String page = "";
 				if( FaqList != null) {

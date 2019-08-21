@@ -30,7 +30,7 @@ var tab_urls = {
 	<%@ include file="/views/common/header.jsp"%>
 	<link href="<%=request.getContextPath()%>/style/customer/ServiceCenter.css"
 		rel="stylesheet" type="text/css">
-	<div id="outer">
+	<div id="Center_outer">
 		<div class="board_top">
 			<div class="tab_btn clearfix test">
 				<div class="switching_btn">
@@ -47,7 +47,7 @@ var tab_urls = {
 				</div>
 			</div>
 			<div class="table_group">
-				<hr/>
+				<!-- <hr> -->
 				<div class="imsi_outer" id="FAQ_List_outer">
 					<%-- <%@ include file="/views/customer/faq/FaqList.jsp"%> --%>
 				</div>

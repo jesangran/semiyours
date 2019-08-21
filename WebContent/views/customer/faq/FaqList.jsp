@@ -21,7 +21,6 @@
 	<button type="submit">검색</button>
 	<br> <br> <br> -->
 	<%-- 검색어'검색결과 : 총 <%=fo.getFaqNo()%> 건 --%>
-	<hr>
 	<br>
 	<table align="center" id="FAQ_listArea">
 		<!-- FAQ 테이블 -->
@@ -32,20 +31,14 @@
 			<th class="FAQ_List_title">FAQ 제목</th>
 		<thead>
 		<tbody>
-			<%
-				if (!FaqList.isEmpty()) {// 호출되어 간때 완성 됨
-			%>
-			<%
-				for (FaqVo fo : FaqList) {// 호출되어 간때 완성 됨
-			%>
+			<% if (!FaqList.isEmpty()) { %> <!-- 호출되어 간때 완성 됨  -->
+			<% for (FaqVo fo : FaqList) { %><!-- 호출되어 간때 완성 됨 -->
 			<tr>
 				<td><%=fo.getFaqNo()%></td>
 				<td><%=fo.getFaqType()%></td>
 				<td align="left"><%=fo.getFaqTitle()%></td>
 			</tr>
-			<%
-				}
-			%>
+			<% } %>
 			<%
 				} else {
 			%>

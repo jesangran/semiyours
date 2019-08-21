@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import customer.model.dao.FaqDao;
-import customer.model.dao.Notice_Dao;
+import customer.model.dao.NoticeDao;
 import customer.model.vo.NoticeVo;
 
 import static common.JDBCTemplate.*;
@@ -14,31 +14,36 @@ public class NoticeService {
 	public ArrayList<NoticeVo> notice_selectList(int currentPage, int nLimit) {
 		Connection conn = getConnection();
 		
-		ArrayList<NoticeVo> list = new Notice_Dao().Notice_selectList(conn, currentPage, nLimit);
+		ArrayList<NoticeVo> list = new NoticeDao().Notice_selectList(conn, currentPage, nLimit);
 		return list;
 	}
 	
-	/*
-	public int getFAQCount() {
-		Connection conn = getConnection();
-		
-		int NoticeCount = new FAQ_Dao().getNoticecount(conn);
-		
-		return NoticeCount;
-	}
-	*/
 
 	public NoticeVo noticeDetail(int nNo) {
 		Connection conn = getConnection();
 		
-		NoticeVo Detail = new Notice_Dao().Detail(nNo, conn);
+		NoticeDao nDao = new NoticeDao();
+		
+		NoticeVo Detail = nDao.Detail(nNo, conn);
+		
+		if(Detail != null) {
+			int result = nDao.increaseCount(conn, nNo);
+			if(result >0) {
+				commit(conn);
+				Detail.setNoticeCount(Detail.getNoticeCount()+1);
+			}else {
+				rollback(conn);
+				Detail=null;
+			}
+		}
+		
 		return Detail;
 	}
 
 	public int nCount() {
 		Connection conn = getConnection();
 		
-		int nCount = new Notice_Dao().nCount(conn);
+		int nCount = new NoticeDao().nCount(conn);
 		
 		return nCount;
 	}
@@ -50,7 +55,4 @@ public class NoticeService {
 	 * 
 	 * return list; }
 	 */
-
-
-	
 }

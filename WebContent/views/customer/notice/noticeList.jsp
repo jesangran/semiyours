@@ -77,9 +77,7 @@ var tab_urls = {
 	<%
 		} else {
 	%>
-	<%-- <span class="pagingBtn clickBtn"><%=p%></span> --%>
-	<span class="pagingBtn clickBtn" 
-	onclick="location.href='<%= request.getContextPath() %>/noticeList.no?currentPage=<%= p %>'"><%=p%></span>
+	<span class="pagingBtn clickBtn"><%=p%></span>
 	<%
 		}
 	%>
@@ -88,9 +86,7 @@ var tab_urls = {
 	%>
 
 	<!-- 다음 페이지로(>) -->
-	<%
-		if (currentPage >= maxPage) {
-	%>
+	<% if (currentPage >= maxPage) { %>
 	<span class="pagingBtn"> &gt; </span>
 	<%
 		} else {

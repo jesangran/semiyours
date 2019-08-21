@@ -17,13 +17,12 @@ import customer.model.vo.NoticeVo;
 import customer.model.vo.PageInfo;
 
 @WebServlet("/customer_Go")
-public class customerList_Go extends HttpServlet {
+public class customerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     
-    public customerList_Go() {
+    public customerServlet() {
         super();
-      
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

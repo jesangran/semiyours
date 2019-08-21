@@ -76,7 +76,6 @@ public class FaqDao {
 			}
 			
 		} catch (Exception e) {
-			System.out.println("error");
 			e.printStackTrace();
 		}finally {
 			close(rset);

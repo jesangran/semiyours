@@ -19,12 +19,11 @@ import customer.model.vo.QnaAttachment;
 import customer.model.vo.QnaVo;
 
 @WebServlet("/insert.qna")
-public class insertQna extends HttpServlet {
+public class insertQnaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public insertQna() {
+	public insertQnaServlet() {
 		super();
-
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -51,7 +50,7 @@ public class insertQna extends HttpServlet {
 			System.out.println(multiRequest);
 
 			// 문의유형
-			String qType = multiRequest.getParameter("category");
+			String qType = multiRequest.getParameter("qnaCategory");
 			// 제목
 			String qTitle = multiRequest.getParameter("title");
 			// 내용

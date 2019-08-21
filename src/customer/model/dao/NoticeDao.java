@@ -14,11 +14,11 @@ import static common.JDBCTemplate.*;
 import customer.model.vo.NoticeVo;
 
 
-public class Notice_Dao {
+public class NoticeDao {
 	
 	private Properties prop = new Properties();
 	
-	public Notice_Dao() {
+	public NoticeDao() {
 		String fileName = NoticeVo.class.getResource("/sql/notice/customer-query.properties").getPath();
 	
 		try {
@@ -132,10 +132,6 @@ public class Notice_Dao {
 		int nCount = 0;
 		
 		String query = prop.getProperty("Noticecount");
-		/*
-		 * #Notice-query.properries 
-		 * getNoticeCount=SELECT COUNT(*) FROM NOTICE WHERE MANAGER_NO=2
-		 */
 		
 		try {
 			stmt = conn.createStatement();
@@ -153,5 +149,25 @@ public class Notice_Dao {
 		}
 		
 		return nCount;
+	}
+	public int increaseCount(Connection conn, int nNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("increaseCount");
+		
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, nNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+				
+		return result;
 	}
 }

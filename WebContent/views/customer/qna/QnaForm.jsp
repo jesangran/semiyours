@@ -5,7 +5,7 @@
 <!-- 문의하기이 들어갈 틀 -->
 <div id="QNA_tableArea">
 	<!-- 문의하기 내용이 대한 제목들 -->
-	<form onsubmit="validate();" method="post" action="<%=request.getContextPath()%>/insert.qna"
+	<form onsubmit="return validate();" method="post" action="<%=request.getContextPath()%>/insert.qna" action="<%=request.getContextPath()%>/insert.qna"
 		enctype="multipart/form-data">
 
 		<table id="QNA_listArea">
@@ -16,8 +16,8 @@
 			<tr>
 				<td class="QNA_align">문의유형</td>
 				<td id="QnaType">
-					<select style="height: 25px;" id="category" name="category">
-							<option value="유형선택">유형선택</option>
+					<select style="height: 25px;" id="qnaCategory" name="qnaCategory">
+							<option value="">유형선택</option>
 							<option value="회원관련">회원관련</option>
 							<option value="게시물관련">게시물관련</option>
 							<option value="이용관련">이용관련</option>
@@ -56,12 +56,14 @@
 	<script>
 	/* option:selected").trim() */
 		function validate(){
-			if( $("#category").val() == "유형선택"){
+		
+			if( $("#QnaType").find("#qnaCategory").val() == ""){
 				alert("유형을 선택해주세요");
-				$("#QnaType").focus();
+				$("#qnaCategory").focus();
 				
 				return false;
 			}
+			
 			/* option:selected" */
 			if( $("#Qnatitle").val() == "" ){
 				alert("제목을 입력해 주세요!");
@@ -69,18 +71,20 @@
 				
 				return false;
 			}
+			
 			if( $("#content").val() == "" ){
 				alert("내용을 입력해 주세요!");
 				$("#content").focus();
 				
 				return false;
 			} 
-			 alert("문의사항 등록이 완료되었습니다.");
+			
 			if( $("#category option:selected").val != null && $("#Qnatitle").val() != null && $("#text_id").val() != null){
-				action="<%=request.getContextPath()%>/insert.qna"
+				alert("문의사항 등록이 완료되었습니다.");
+				<%-- action="<%=request.getContextPath()%>/insert.qna"; --%>
+				return true;
 			}
-			return true;
-
+			
 		}
 	</script>
 </div>

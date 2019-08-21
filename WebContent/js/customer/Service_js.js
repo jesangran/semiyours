@@ -48,31 +48,20 @@ $(function() {
 		if (jQuery.isNumeric(text)) {
 			var target = $tab_btn.find("button.on").attr("target");
 			var num = parseInt(text);
-			alert(num); 
-			alert(target);
-			
-			/*var loadPage = function(target, num) {
-				alert(target);
-				alert(num);
-				$.ajax({// 각각 맞는 호출을 하여 값을 반환받아오는 코드
-					url : "/noticeList.no?currentPage=" + num,
-					type : "post",
-					success : function(result) {
-						// 받아온 데이터를 화면에 출력
-						$(target).html(result);
-						console.log("success");
-					},
-					error : function(err) {
-						console.log("error: " + err);
-					},
-					complete : function() {
-						console.log("complete!");
-					}
-				});
-
-			};*/
+			loadPage(target, num);
 		}
 	});
+	/*$(".table_group").on("click", ".clickBtn", function() {
+
+		var text = $(this).text();
+
+		if (jQuery.isNumeric(text)) {
+			var target = $tab_btn.find("button.on").attr("target");
+			var num = parseInt(text);		
+			loadPage(target, num+1);
+		}
+	});*/
+	
 	// 고객센터 첫페이지를 0번째 버튼인 FAQ로 화면 출력
 	$tab_btn.find("button")[0].click();
 });

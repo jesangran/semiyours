@@ -9,34 +9,33 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import customer.model.service.NoticeService;
-import customer.model.vo.NoticeVo;
+import customer.model.service.FaqService;
+import customer.model.vo.FaqVo;
 
-@WebServlet("/noticeDetail.no")
-public class noticeDetail extends HttpServlet {
+@WebServlet("/faqDetail.no")
+public class faqDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public noticeDetail() {
+	public faqDetailServlet() {
 		super();
-
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("db전");
-		int nNo = Integer.parseInt(request.getParameter("nNo"));
-		System.out.println("db후");
-		NoticeVo nDetail = new NoticeService().noticeDetail(nNo);
-		System.out.println(nDetail);
+
+		int fno = Integer.parseInt(request.getParameter("fno"));
+
+		FaqVo detail = new FaqService().faqDetail(fno);
+		System.out.println(detail);
 		RequestDispatcher view = null;
 		
 		String page = "";
-		if (nDetail != null) { // 해당 글이 존재하는 경우
-			page = "views/customer/notice/noticeDetail.jsp";
-			request.setAttribute("nDetail", nDetail);
+		if (detail != null) { // 해당 글이 존재하는 경우
+			page = "views/customer/faq/FaqDetail.jsp";
+			request.setAttribute("detail", detail);
 		} else {
 			page = "views/common/errorPage.jsp";
-			request.setAttribute("msg", "공지사항 상세 조회 중 에러 발생");
+			request.setAttribute("msg", "FAQ 상세 조회 중 에러 발생");
 		}
 
 		view = request.getRequestDispatcher(page);
