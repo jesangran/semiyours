@@ -1,6 +1,6 @@
 <%@page import="deal.model.vo.Local"%>
 <%@page import="member.model.vo.Member"%>
-<%@page import="deal.model.vo.PageInfo"%>
+
 <%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@page import="deal.model.vo.DealAttachment"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -11,7 +11,8 @@
 ArrayList<Deal> dList =(ArrayList<Deal>)request.getAttribute("dList");
 ArrayList<DealAttachment> dfList =(ArrayList<DealAttachment>)request.getAttribute("dfList");
 String myLocal= (String)request.getAttribute("myLocal");
-
+String keyword= (String)request.getAttribute("keyword");
+int dealCount=(Integer)request.getAttribute("dealCount");
 %>
 
 <!DOCTYPE html>
@@ -23,6 +24,7 @@ String myLocal= (String)request.getAttribute("myLocal");
 <style>
 * {
 	box-sizing: border-box;
+	
 }
 
 
@@ -98,13 +100,14 @@ ul {
             font-size:14px;
             font-weight:bolder;
             height:50px;
+             width:1000px;
+              margin:auto;
             }
 
             .highList{
-             width:1280px;
+             width:100%;
             height:100%;
             list-style:none;
-   
             padding:0;
             }
 			.localSel{
@@ -165,16 +168,36 @@ ul {
 			top:20px;
 			left: 360px;
 		}
+		
+		#searchResult{
+			width:1000px;
+			margin:auto;
+			margin-bottom:30px;
+			font-weight: bolder;
+		}
 </style>
 </head>
 <body>
+
+
+
+
 
 
 <%if(!dList.isEmpty()){
 	if(dList.get(0).getDept1()!=null){
 %>
 <span><%=dList.get(0).getDept1() %></span>>><span><%=dList.get(0).getDept2() %></span>
-<%} }%>
+<%} 
+	}%>
+		
+		
+	<%-- 	<%if(keyword!=null){%>
+		<div id="searchResult">
+			<p>총 <%=dealCount%> 건이 검색 되었습니다.</p>
+		
+		</div>
+		<%} %> --%>
  <div class= menubar>
         <ul class="highList">
         
@@ -186,7 +209,7 @@ ul {
     </div>
 	
 	<section id="wrapper">
-
+		
 		
 		<div id="listFrame">
 			<%if(!dList.isEmpty()) {%>

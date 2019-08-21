@@ -30,11 +30,14 @@ public class LoginMemberServlet extends HttpServlet {
 		Member loginUser = new MemberService().loginMember(email,pwd);
 		
 		if(loginUser!=null) {
+	
 			if(loginUser.getBlackStatus()=='N') {
 			HttpSession session = request.getSession();
 			session.setMaxInactiveInterval(1800);
 			session.setAttribute("loginUser", loginUser);
 			response.sendRedirect(request.getContextPath());
+			
+			
 			}else {
 				request.setAttribute("msg",loginUser.getbClearDate()+"까지 이용이 제한되어 로그인하실 수 없습니다.");
 				RequestDispatcher view = request.getRequestDispatcher("select.de");

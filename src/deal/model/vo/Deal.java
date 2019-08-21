@@ -1,9 +1,9 @@
+
 package deal.model.vo;
 
 import java.sql.Timestamp;
 
 public class Deal {
-
 	private int dealNo;
 	private int dealWriter;
 	private String nickname;
@@ -97,6 +97,7 @@ public class Deal {
 		this.dealLocal=dealLocal;
 		
 	}
+	
 	public Deal(int dealNo, String dealTitle, int dealStatus, int price, int dealType,String dealLocal,String dept1, String dept2) {
 		super();
 		this.dealNo = dealNo;
@@ -229,12 +230,21 @@ public class Deal {
 		this.dealType = dealType;
 	}
 
+
 	public int getViewCount() {
 		return viewCount;
 	}
 
 	public void setViewCount(int viewCount) {
 		this.viewCount = viewCount;
+  }
+  
+	public String getDealerGrade() {
+		return dealerGrade;
+	}
+
+	public void setDealerGrade(String dealerGrade) {
+		this.dealerGrade = dealerGrade;
 	}
 
 	public int getrType() {
@@ -261,5 +271,6 @@ public class Deal {
 				+ ", deleteYN=" + deleteYN + ", dealLocal=" + dealLocal + ", price=" + price + ", dealType=" + dealType
 				+ ", viewCount=" + viewCount + ", rType=" + rType + ", dealerGrade=" + dealerGrade + "]";
 	}
+	
 
 }

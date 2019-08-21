@@ -217,6 +217,8 @@
 			}
 		});
 		
+		
+		
 		$("#joinForm").submit(function(){
 			var check = true;
 		 	if(!emailC){check=false;}
