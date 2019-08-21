@@ -70,4 +70,15 @@ public class MemberService {
 		return result;
 	}
 
+	public int updatePwd(String email, String pwd) {
+		Connection conn = getConnection();
+		int result = new MemberDao().updatePwd(conn,email,pwd);
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
+	}
+
 }

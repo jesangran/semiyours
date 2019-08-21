@@ -73,7 +73,7 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
          }
 
         .replyListArea {
-        	
+        
         }
         
         #inputimg{
@@ -203,6 +203,9 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
     	.date{
     		float:left;
     		width:10%;
+    		font-size:12px;
+    		color:grey;
+    		line-height: 30px;
     	}
     	
     	#titleArea{
@@ -509,7 +512,7 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 	});
 	
 	function selectComment(dealNo){
-		
+		var user="<%=loginUser.getNickName()%>";
 		
 		$.ajax({
 			url:"selectComment.de",
@@ -517,41 +520,126 @@ ArrayList<DealAttachment> daList =(ArrayList<DealAttachment> )request.getAttribu
 			type:"post",
 			dataType:"json",
 			success:function(commList){
-				console.log(commList);
+	
 				
 				$.each(commList,function(i){
 					var $li = $("<li>");
 					var $div1 = $("<div>");
 					var $div2 = $("<div>");
+					var $textarea = $("<textarea>");
 					var $div3 = $("<div>");
 					var $div4 = $("<div>");
 					var $div5 = $("<div>");
 					var $deleteButton = $("<button>");
 					var $updateButton = $("<button>");
-					$deleteButton.text("삭제")
-					$updateButton.text("수정")
-					$div1.text(commList[i].dealCommWriter);
-					$div1.attr({"class":"comment","id":"commWiterArea"}).css({"width":"100px","float":"left"});
-					$div2.text(commList[i].dealCommContent);
-					$div2.attr({"class":"comment","id":"commContentArea"}).css({"width":"800px","float":"left"});
+					var $completeButton = $("<button>");
+					var $cNo = $("<input>");
+					$deleteButton.text("삭제").css({"border":"0px","background":"white"});
+					$updateButton.text("수정").css({"border":"0px","background":"white"});
+					$completeButton.text("완료");
+					$completeButton.hide();
+					$div1.text(commList[i].dealCommWriter).attr({"class":"comment","id":"commWiterArea"}).css({"width":"100px","float":"left"});
+					$div2.html(commList[i].dealCommContent).attr({"class":"comment","id":"commContentArea"}).css({"width":"800px","float":"left","position":"relative"});
+					$textarea.css({"position":"absolute"});
+					$textarea.attr({"cols":"120px","row":"5"});
+					$textarea.hide();
 					$div3.text(commList[i].dealCommEnrolldate);
-					$div3.attr({"class":"comment","id":"commDateArea"}).css({"width":"180px","float":"left"});
+					$div3.attr({"class":"comment","id":"commDateArea"}).css({"width":"180px","float":"left","font-size":"12px"});
 					$div4.html($deleteButton);
 					$div4.attr({"class":"comment","id":"deleteButtonArea"}).css({"width":"50px","float":"left","background":"white","border":"none"});
 					$div5.html($updateButton);
+					$div5.append($completeButton);
+					$div5.append("");
 					$div5.attr({"class":"comment","id":"updateButtonArea"}).css({"width":"50px","float":"left","background":"white","border":0});
+					$cNo.attr({"value":commList[i].dealCommNo,"type":"hidden"})
 					$li.append($div1);
 					$li.append($div2);
+					$li.append($textarea);
 					$li.append($div3);
+					
+					
 					$li.append($div5);
+					$li.append($cNo);
 					$li.append($div4);
+					if(user!=$div1.text()){
+						$div4.hide();
+						$div5.hide();
+					}
+					
+					
 					$li.attr("class","commentList").css({"border-top":"1px solid lightgrey"});
-					 $("#replyList").append($li);
+					$("#replyList").append($li);
+					
+					$updateButton.click(function(){
+						$(this).hide();
+						$textarea.show();
+						$textarea.html($div2.html());
+						$div2.html($textarea);
+						$completeButton.show();
+					});
+					var content;
+					$textarea.on("input",function(){
+						content = $(this).val();
+						console.log(content);
+					});
+					
+					$completeButton.click(function(){
+						var cNo =$(this).parent().next().val();
+						console.log(content);
+						console.log(cNo);
+						$.ajax({
+							url:"updateComm.de",
+							data:{content:content,cNo:cNo},
+							type:"post",
+							success:function(result){
+								if(result>0){
+									$div2.text($textarea.text());
+									$completeButton.hide();
+									$updateButton.show();
+									 $("#replyList").html("");
+									 selectComment(dealNo);	
+								}
+							}
+						});
+						
+					});
+					
+					
+					$deleteButton.click(function(){
+						if(confirm("정말 삭제하시겠습니까?")){
+						var cNo =$(this).parent().prev().val();
+							$.ajax({
+								url:"deleteComm.de",
+								data:{cNo:cNo},
+								type:"post",
+								success:function(result){
+									if(result>0){
+										 $("#replyList").html("");
+										 selectComment(dealNo);	
+									}
+								}
+							});
+						}
+					});
+					
+					
+					
+					
 				});
 				$("#commentCount").text(commList.length);
+				
+				
+				
+				
 			}
 		});
 	}
+
+	
+	
+	
+	
+	
 	
 </script>
 
@@ -604,6 +692,9 @@ $(function(){
   }
  });
 }); 
+
+
+
 </script>
 
 

@@ -242,14 +242,18 @@ ul {
 	
 	$("#cancelBtn").click(function(){
 		var dNo = $(this).prev().val();
-		console.log(dNo);
 		$.ajax({
 			url : "deletePick.my",
 			data:{dNo:dNo},
 			type:"get",
 			success:function(result){
-				if(result==0){
-					alert("목록을 삭제하는 도중 오류가 발생했습니다.")
+				if(result>0){
+					$(".listSale").html("");
+					scrollSelectList(8,1,<%=loginUser.getUserNo()%>);
+					limit=8;
+					currentPage=1;
+				}else{
+					alert("목록을 삭제하는 도중 오류가 발생했습니다.");
 				}
 			}
 			
@@ -260,6 +264,8 @@ ul {
 	
 	
 });
+	
+	
 
 function scrollSelectList(li,curr,uno){
 	

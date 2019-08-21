@@ -139,7 +139,33 @@ public class DealDao {
 		}
 		return count;
 	}
-
+	
+	public int getDealCount(Connection conn, String keyword, String local) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int count = 0;
+		String query = prop.getProperty("getDealSearchCount");
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, keyword);
+			pstmt.setString(3, keyword);
+			pstmt.setString(4, local + "%");
+			rset = pstmt.executeQuery();
+			if (rset.next()) {
+				count = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return count;
+	}
+	
+	
+	
 	public Deal selectDeal(Connection conn, int dealNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -483,6 +509,92 @@ public class DealDao {
 		}
 		return cdaList;
 	}
+
+	public int updateComment(Connection conn, String content, int cNo) {
+		PreparedStatement pstmt = null;
+		int result=0;
+		String query=prop.getProperty("updateComment");
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1,content);
+			pstmt.setInt(2, cNo);
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteComment(Connection conn, int cNo) {
+		PreparedStatement pstmt = null;
+		int result=0;
+		String query=prop.getProperty("deleteComment");
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1, cNo);
+			result=pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public ArrayList<Deal> selectSearchList(Connection conn, int start, int limit, String keyword, String local) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Deal> sdList = new ArrayList<Deal>();
+		String query = prop.getProperty("selectSDList");
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,keyword);
+			pstmt.setString(2,keyword);
+			pstmt.setString(3,keyword);
+			pstmt.setString(4, local + "%");
+			pstmt.setInt(5, start);
+			pstmt.setInt(6, limit);
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				sdList.add(new Deal(rset.getInt(2), rset.getString(3), rset.getInt(4), rset.getInt(5), rset.getInt(6),rset.getString(7)));
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return sdList;
+	}
+
+	public ArrayList<DealAttachment> selectSearchDaList(Connection conn, int start, int limit, String keyword,
+			String local) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<DealAttachment> sdaList = new ArrayList<DealAttachment>();
+		String query = prop.getProperty("selectSDAList");
+		DealAttachment da=null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,keyword);
+			pstmt.setString(2,keyword);
+			pstmt.setString(3,"%"+keyword+"%");
+			pstmt.setString(4, local+"%");
+			pstmt.setInt(5, start);
+			pstmt.setInt(6, limit);
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				da= new DealAttachment();
+				da.setDaChange(rset.getString(4));
+				sdaList.add(da);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return sdaList;
+	}
+
 	
 
 

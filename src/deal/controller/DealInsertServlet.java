@@ -18,6 +18,7 @@ import common.MyFileRenamePolicy;
 import deal.model.service.DealService;
 import deal.model.vo.Deal;
 import deal.model.vo.DealAttachment;
+import member.model.vo.Member;
 
 @WebServlet("/insert.de")
 public class DealInsertServlet extends HttpServlet {
@@ -45,15 +46,15 @@ public class DealInsertServlet extends HttpServlet {
 			String dept2 = multiRequest.getParameter("dept2");
 			String dealTitle = multiRequest.getParameter("dealTitle");
 		
-			String dealContent = multiRequest.getParameter("dealContent").replace("\n", "<br>");;
-			String dealWriter = multiRequest.getParameter("uno");
+			String dealContent = multiRequest.getParameter("dealContent").replace("\n", "<br>");
+			int dealWriter =((Member)request.getSession().getAttribute("loginUser")).getUserNo();
 			int price = Integer.parseInt(multiRequest.getParameter("price"));
 			int dealType = Integer.parseInt(multiRequest.getParameter("dealType"));
 			String dealLocal = multiRequest.getParameter("dealLocal");
 			int dealCount = Integer.parseInt(multiRequest.getParameter("dealCount"));
 			
 
-			deal = new Deal(dealWriter, dealTitle, dealContent, dealCount, dept1, dept2, dealLocal, price, dealType);
+			deal = new Deal(dealTitle,dealWriter, dealContent, dealCount, dept1, dept2, dealLocal, price, dealType);
 
 			Enumeration<String> files = multiRequest.getFileNames();
 

@@ -54,7 +54,7 @@ header{
 }
 header article{
     float: left;
-    width: 15%;
+    width: 17%;
     height: 100%;
     font-size: 18px;
     font-weight:bolder;
@@ -69,14 +69,14 @@ header article{
     height: 20%;
 }
 #headerSec1{
-    width: 70%;
+    width: 66%;
     height: 100%;
     float: left;
     font-size: 12px;
 
 }
 #headerSec2{
-    width: 15%;
+    width: 17%;
     height: 100%;
     float: left;
     text-align: right;
@@ -130,7 +130,7 @@ header article{
 }
 #headerSec2>div>span{
 	margin-right: 27px;
-	font-size:14px;
+	font-size:13px;
 }
 #headerSec2>div{
 	width:100%;
@@ -303,11 +303,10 @@ header article{
         
         <section id = headerSec1>
             <a href="<%=request.getContextPath()%>/select.de"><img src="<%=request.getContextPath()%>/images/logo.png" id= "mainlogo"></a>
-            <form id="searchFrm" name="searchFrm" method="GET">
+            <form id="searchFrm" name="searchFrm" action="<%=request.getContextPath()%>/search.de" method="GET">
             	<div class="searchWrapper">
-	                <input type="text" id = "searchBox">
-	                <span id="searchBtn">검색</span>
-	                <!-- <input type="submit" id="searchBtn" value="검색"> -->
+	                <input type="text" id = "searchBox" name="keyword" >
+	                <button id="searchBtn">검색</button>
             	</div>
                
             </form>
@@ -362,35 +361,38 @@ header article{
 	                     <li>
 	                     <input type="hidden" class="c1No" name ="c1No" value="1">
 	                     <div class="c1Name">생활가전</div>
-	                      <ul class="categorydept2"></ul>
+	                  
 	                     </li>
 	                         <li>
 	                     <input type="hidden" class="c1No" name ="c1No" value="2">
 	                     <div class="c1Name">주방가전</div>
-	                     <ul class="categorydept2"></ul>
+	                 
 	                     </li>
 	                         <li>
 	                     <input type="hidden" class="c1No" name ="c1No" value="3">
 	                     <div class="c1Name">IT가전</div>
-	                     <ul class="categorydept2"></ul>
+	             
 	                     </li>
 	                         <li>
 	                     <input type="hidden" class="c1No" name ="c1No" value="4">
 	                     <div class="c1Name">멀티미디어</div>
-	                     <ul class="categorydept2"></ul>
+	            
 	                     </li>
 	                         <li>
 	                     <input type="hidden" class="c1No" name ="c1No" value="5">
 	                     <div class="c1Name">계절가전</div>
-	                     <ul class="categorydept2"></ul>
+	  
 	                     </li>
 	                         <li>
 	                     <input type="hidden" class="c1No" name ="c1No" value="6">
 	                     <div class="c1Name">기타</div>
-	                     <ul class="categorydept2"></ul>
+
 	                     </li>
-	              		  
+	              		  <li>
+	              		   <ul class="categorydept2"></ul>
+	              		  </li>
 	               </ul>
+	               
             </div>
             	
             </li>
@@ -455,8 +457,7 @@ header article{
 			
 			var cno = $(this).prev().val(); 
 			console.log(cno);
-			$(".categorydept2").hide();
-			$(this).next().show();
+			$(".categorydept2").show();
 			$(".categorydept2").html("");
 				$.ajax({
 					url:"select2.cate",
@@ -487,18 +488,31 @@ header article{
 			$("#categorydept2").show();
 			
 		}); 
-			
+		
+		$("#searchFrm").submit(function(){
+			var keyword = $("#searchBox").val().trim();
+			if(keyword==""){
+				alert("검색어를 입력해주세요");
+				return false;
+			}
+		});
+		
+		
+		
+		
+		
+		
+		
 		function CategorySearch($category){
-			
 			$category.click(function(){
-
-			
-			var cName=$(this).text();
+			var cName=$category.text();
 			console.log(cName);
- 			 location.href="<%=request.getContextPath()%>/searchCategory.de?cName="+cName; 
+ 			 location.href="<%=request.getContextPath()%>/search.de?cName="+cName; 
 			});
 			
 		}
+		
+		
 			
 		</script>
 </body>

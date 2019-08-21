@@ -95,6 +95,7 @@ public class Deal {
 		this.dealLocal=dealLocal;
 		
 	}
+	
 	public Deal(int dealNo, String dealTitle, int dealStatus, int price, int dealType,String dealLocal,String dept1, String dept2) {
 		super();
 		this.dealNo = dealNo;
