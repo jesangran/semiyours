@@ -407,7 +407,7 @@ header article{
 		<%if(loginUser==null){%>
 			
 			$("a").removeAttr("href").css({"cursor":"pointer","text-decoration":"underline"});
-			$("img,span,div").removeEventListener("click").css({"cursor":"pointer"});
+			/* $("img,span,div").removeEventListener("click").css({"cursor":"pointer"}); */
 			
 		<%}else{%>
 			$("#sale").click(function(){

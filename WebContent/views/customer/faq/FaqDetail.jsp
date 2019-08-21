@@ -79,7 +79,7 @@ hr {
 			<button type="submit">검색</button>
 			<br><br><hr>
 			<br> Q.	<tr>
-				<td class="FAQ_title"><%= fv.getFaqType()%></td> >
+				<td class="FAQ_title"><%= fv.getFaqType()%></td>
 				<td class="FAQ_title"><%= fv.getFaqTitle()%></td>
 			</tr>
 			<br><br><hr>

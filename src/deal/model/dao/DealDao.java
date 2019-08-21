@@ -152,11 +152,23 @@ public class DealDao {
 			pstmt.setInt(1, dealNo);
 			rset = pstmt.executeQuery();
 			if (rset.next()) {
-				deal = new Deal(rset.getInt("DEAL_NO"),rset.getInt("DEAL_WRITER"),rset.getString("NICKNAME"), rset.getString("DEAL_TITLE"),
-						rset.getString("DEAL_CONTENT"), rset.getTimestamp("DEAL_ENROLLDATE"), rset.getInt("DEAL_COUNT"),
-						rset.getInt("DEAL_STATUS"), rset.getString("DEPT1_NAME"), rset.getString("DEPT2_NAME"),
-						rset.getString("DEAL_LOCAL"), rset.getInt("PRICE"), rset.getInt("DEAL_TYPE"),
-						rset.getInt("VIEWCOUNT"), rset.getInt("R_TYPE"), rset.getString("GNAME"));
+				deal = new Deal(rset.getInt("DEAL_NO"), rset.getInt("DEAL_WRITER"), rset.getString("NICKNAME"),
+						rset.getString("DEAL_TITLE"), rset.getString("DEAL_CONTENT"),
+						rset.getTimestamp("DEAL_ENROLLDATE"), rset.getInt("DEAL_COUNT"), rset.getInt("DEAL_STATUS"),
+						rset.getString("DEPT1_NAME"), rset.getString("DEPT2_NAME"), rset.getString("DEAL_LOCAL"),
+						rset.getInt("PRICE"), rset.getInt("DEAL_TYPE"), rset.getInt("VIEWCOUNT"), rset.getInt("R_TYPE"),
+						rset.getString("GNAME"));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return deal;
+	}
 
    public ArrayList<DealAttachment> selectFile(Connection conn, int dealNo) {
       PreparedStatement pstmt = null;
@@ -201,28 +213,7 @@ public class DealDao {
       return dno;
    }
 
-   public ArrayList<Deal> selectLocalDealList(Connection conn, int begin, int limit, String local) {
-      PreparedStatement pstmt = null;
-      ResultSet rset = null;
-      ArrayList<Deal> dList = new ArrayList<Deal>();
-      String query = prop.getProperty("selectLDList");
-      System.out.println(query);
-      try {
-         pstmt = conn.prepareStatement(query);
-         pstmt.setString(1, local + "%");
-         pstmt.setInt(2, begin);
-         pstmt.setInt(3, limit);
-         rset = pstmt.executeQuery();
-         while (rset.next()) {
-            dList.add(new Deal(rset.getInt(2), rset.getString(3), rset.getInt(4), rset.getInt(5), rset.getInt(6)));
-         }
-      } catch (SQLException e) {
-         e.printStackTrace();
-      }
-      return dList;
-   }
-
-
+ 
 	public ArrayList<Deal> selectLocalDealList(Connection conn, int begin, int limit, String local) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -243,6 +234,26 @@ public class DealDao {
 		}
 		return dList;
 	}
+	
+	public ArrayList<DealAttachment> selectLocalDaList(Connection conn, int begin, int limit, String local) {
+	      PreparedStatement pstmt = null;
+	      ResultSet rset = null;
+	      ArrayList<DealAttachment> daList = new ArrayList<DealAttachment>();
+	      String query = prop.getProperty("selectLDAList");
+	      try {
+	         pstmt = conn.prepareStatement(query);
+	         pstmt.setString(1, local + "%");
+	         pstmt.setInt(2, begin);
+	         pstmt.setInt(3, limit);
+	         rset = pstmt.executeQuery();
+	         while (rset.next()) {
+	            daList.add(new DealAttachment(rset.getString(4), rset.getString(3), rset.getInt(2)));
+	         }
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      }
+	      return daList;
+	   }
 
 
    public int increaseViewCount(Connection conn, int dealNo) {
@@ -362,26 +373,6 @@ public class DealDao {
       return result;
    }
 
-   public ArrayList<DealAttachment> selectDeletedFileName(Connection conn, int dealNo) {
-      PreparedStatement pstmt= null;
-      ResultSet rset = null;
-      ArrayList<DealAttachment> deleteList = new ArrayList<DealAttachment>();
-      String query = prop.getProperty("selectDeletedFileName");
-      try {
-         pstmt=conn.prepareStatement(query);
-         pstmt.setInt(1, dealNo);
-         rset=pstmt.executeQuery();
-         while(rset.next()) {
-            deleteList.add(new DealAttachment(rset.getString(3),rset.getString(4)));
-         }
-      }catch(SQLException e) {
-         e.printStackTrace();
-      }finally {
-         close(rset);
-         close(pstmt);
-      }
-      return deleteList;
-   }
 
 
 	public ArrayList<DealAttachment> selectDeletedFileName(Connection conn, int dealNo) {
