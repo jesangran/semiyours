@@ -61,13 +61,6 @@ public class DealService {
 
 	}
 
-	public ArrayList<Deal> selectList(int begin, int limit, String local) {
-		Connection conn = getConnection();
-		ArrayList<Deal> dList = null;
-		dList = new DealDao().selectLocalDealList(conn, begin, limit, local);
-
-		return dList;
-	}
 
 	public ArrayList<DealAttachment> selectDFList(int begin, int limit, String local) {
 		Connection conn = getConnection();

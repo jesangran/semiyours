@@ -202,5 +202,19 @@ public class MemberDao {
 		return result;
 	}
 
+	public int deleteMember(Connection conn, int userno) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = prop.getProperty("deleteMember");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return 0;
+	}
+
 	
 }

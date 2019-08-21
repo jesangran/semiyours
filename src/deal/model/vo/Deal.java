@@ -239,13 +239,6 @@ public class Deal {
 		this.viewCount = viewCount;
   }
   
-	public String getDealerGrade() {
-		return dealerGrade;
-	}
-
-	public void setDealerGrade(String dealerGrade) {
-		this.dealerGrade = dealerGrade;
-	}
 
 	public int getrType() {
 		return rType;
