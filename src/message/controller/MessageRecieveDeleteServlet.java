@@ -20,7 +20,6 @@ public class MessageRecieveDeleteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		int mno = Integer.parseInt(request.getParameter("mno"));
-		
 		int result = new MessageService().recieveMsgDelete(mno);
 		
 		response.getWriter().print(result);

@@ -138,17 +138,15 @@ header article{
 
 
 
-[data-notifications]:after {
-    content: attr(data-notifications);
+.badge:after {
+    content: attr(value);
     position: absolute;
     background: red;
     border-radius: 50%;
     display: inline-block;
-    padding: 0.15em;
+    padding: 3px;
     color: #f2f2f2;
-    top: -1.5px;
-  
-    
+   /*  top: -1.5px; */
 } 
 
 .menu{
@@ -326,8 +324,7 @@ header article{
         		<div>
 	         
 	        	<% if(loginUser!=null){%>
-	        	<span data-notifications="00" id="message">쪽지</span>
-	            <span data-notifications="00" id="notice">알림</span>
+	        	<span id="message"style="margin-right: 0px;">쪽지</span><span class="badge"></span>
 	            <span  id="logout">로그아웃</span>
 	      		<%}else{ %>
 	    		  <span  id="login">로그인</span>
@@ -426,9 +423,6 @@ header article{
 				location.href="<%=request.getContextPath()%>/customer_Go";	
 			});
 			
-			
-			
-			
 			$("#message").click(function(){
 				window.open("<%=request.getContextPath()%>/recievemsg.me","msgPop","width=500px,height=400px,left=500px,top=200px");
 			});
@@ -436,8 +430,26 @@ header article{
 				location.href="<%=request.getContextPath()%>/logout.me";
 			});
 			
+
+			function addNoti(){
+				var count = $(".badge").attr("value","00");
+				$.ajax({
+					url: "countMsg.me",
+					type: "POST",
+					success: function(result){
+							console.log(result);
+							$(".badge").attr("value", ("0"+result));
+						}
+					});
+				};
+				
+			addNoti();
 			
-			
+			setInterval(function() {
+				addNoti();
+			}, 10000);
+				
+		
 		<%}%>
 	 	$(".cateListWrapper").hide();
 		

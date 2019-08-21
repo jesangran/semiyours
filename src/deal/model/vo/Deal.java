@@ -1,3 +1,4 @@
+
 package deal.model.vo;
 
 import java.sql.Timestamp;
@@ -231,5 +232,5 @@ public class Deal {
 				+ ", viewCount=" + viewCount + ", rType=" + rType + ", dealerGrade=" + dealerGrade + "]";
 	}
 	
-	
+
 }

@@ -181,6 +181,7 @@ public class MemberDao {
 		return result;
 	}
 
+
 	public int updatePwd(Connection conn, String email, String pwd) {
 		PreparedStatement pstmt = null;
 		int result =0;
@@ -197,6 +198,7 @@ public class MemberDao {
 		}finally {
 			close(pstmt);
 		}
+
 		return result;
 	}
 
