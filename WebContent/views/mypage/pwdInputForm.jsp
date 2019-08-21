@@ -76,7 +76,9 @@ span{
 	</section>
 
 	<%@ include file="../common/footer.jsp"%>
-	
+	<script>
+	$(".updateInfo").css({"font-weight":"bolder","color":"black"});
+	</script>
 
 	
 	

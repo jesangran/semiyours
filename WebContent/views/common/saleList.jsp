@@ -10,9 +10,8 @@
 <%
 ArrayList<Deal> dList =(ArrayList<Deal>)request.getAttribute("dList");
 ArrayList<DealAttachment> dfList =(ArrayList<DealAttachment>)request.getAttribute("dfList");
-ArrayList<Local> lList = (ArrayList<Local>)request.getAttribute("lList");
 String myLocal= (String)request.getAttribute("myLocal");
-int dealCount = (Integer)request.getAttribute("dealCount");
+
 %>
 
 <!DOCTYPE html>
@@ -30,11 +29,13 @@ int dealCount = (Integer)request.getAttribute("dealCount");
 #wrapper {
 
 	width: 1280px;
+	height:1280px;
 	scroll-behavior:smooth;
 	align-content: center;
 	clear: both;
 	margin:0;
 	-webkit-overflow-style:none;
+	background:#F6F6F6;
 }
 #wrapper::-webkit-scrollbar{
 	display:none;
@@ -42,15 +43,16 @@ int dealCount = (Integer)request.getAttribute("dealCount");
 
 
 #listFrame {
-	margin:20px auto;
+	margin:auto;
+	padding:20px 0 0 0;
 	height: 100%;
 	width: 1040px;
-
+	position: relative;
 }
 .imgFrame{
 	width:250px;
 	height:230px;
-	margin:5px;
+	margin:0;
 	padding:0;
 	border:2px solid lightgrey;
 	position :relative;
@@ -73,17 +75,19 @@ ul {
 }
 .listFooter {
 	width: 250px;
-	height: 70px;
+	height: 100px;
 	top:0;
 	margin: 0;
-	font-size:20px;
+	font-size:18px;
 	overflow: hidden; 
 	white-space: nowrap;
 	text-overflow:ellipsis;
 	 
 }
 
+
 .localSel{cursor:pointer;}
+
 
 /* -----------------------지역선택--------------------------- */
 
@@ -100,14 +104,18 @@ ul {
              width:1280px;
             height:100%;
             list-style:none;
-            margin-left:139px;
+   
             padding:0;
             }
 			.localSel{
 				float:left;
 	            display: inline-block;
-	            width:200px;
+	            width:220px;
 	            height: 50px;
+	            line-height:50px;
+	            text-align: center;
+	            font-size:20px;
+	            
 			}
             
 			
@@ -150,32 +158,39 @@ ul {
 		.selling{background: green;}
 		.dealing{background: orange;}
 		#end{clear:both;}
-		
+		.noSale{
+			padding:0;
+			margin:0;
+			position: absolute;
+			top:20px;
+			left: 360px;
+		}
 </style>
 </head>
 <body>
+
+
+<%if(!dList.isEmpty()){
+	if(dList.get(0).getDept1()!=null){
+%>
+<span><%=dList.get(0).getDept1() %></span>>><span><%=dList.get(0).getDept2() %></span>
+<%} }%>
  <div class= menubar>
         <ul class="highList">
+        
             <li><span class="localSel local" id="local">우리동네</span></li>
             <li><span class="localSel public" id="public">전국</span>
-                <ul class="localList">
-                	<% for(Local l : lList){%>
-                    <li >
-                    <span class="locals"><%=l.getlName() %></span>
-                  	 <input type="hidden" value="<%=l.getFullName()%>">
-                    </li>
-                    
-                  	<%} %>
-                </ul>
+ 
             </li>
         </ul>
     </div>
-
+	
 	<section id="wrapper">
 
 		
 		<div id="listFrame">
 			<%if(!dList.isEmpty()) {%>
+			
 			<ul class="listSale" >
 		
 					<%for(int i=0; i<dList.size(); i++){ %>
@@ -205,6 +220,7 @@ ul {
 								<%=dList.get(i).getDealTitle()%>
 							</div>
 							<div><%=dList.get(i).getPrice()%>원</div>
+							<div><%=dList.get(i).getDealLocal().split(" ")[0]+" "+dList.get(i).getDealLocal().split(" ")[1]%></div>
 						</div>
 							
 					</li>
@@ -212,7 +228,7 @@ ul {
 					
 			</ul>
 			<%}else{ %>
-			<h1 align="center">등록된 물품이 없습니다 ㅠㅠ</h1>
+			<h1 class="noSale" align="center">등록된 물품이 없습니다 ㅠㅠ</h1>
 			<%} %>
 			
 		</div>
@@ -221,19 +237,39 @@ ul {
 	</section>
 	
 	
+	
+	
 	<script>
 	var count =24;
 	var currentPage =count+1;
 	var limit =currentPage+count-1;
 	var check = true;
 	var local="<%=myLocal%>";
-	var dealCount =<%=dealCount%>;
+
 	
 
 	$(function(){
 		
+		$("#public").click(function(){
+			$(this).css("background","#F6F6F6");
+			$("#local").css("background","");
+			currentPage=1;
+			limit=24;
+			local="";
+			$(".listSale").html("");
+			scrollSelectList(limit,currentPage,local);
+		});
+		$("#local").click(function(){
+			$(this).css("background","#F6F6F6");
+			$("#public").css("background","");
+			currentPage=1;
+			limit=24;
+			local="<%=myLocal%>";
+			$(".listSale").html("");
+			scrollSelectList(limit,currentPage,local);
+		})
 		
-		//$(".fullname").hide().css("opacity","0");
+		
 		
 		$(".listSale>li").mouseenter(function(){
 			
@@ -241,37 +277,6 @@ ul {
 		}).mouseleave(function(){
 			$(this).children().css({"text-decoration":"none","cursor":"none"});
 		});
-		
-		$("#public").click(function(){
-			limit=24;
-			currentPage=1;
-			$(".listSale").html("");
-			scrollSelectList(24,1,"");
-			local="";
-		
-		});
-		
-		$("#local").click(function(){
-			$(".listSale").html("");
-			scrollSelectList(24,1,"<%=myLocal%>");
-			local="<%=myLocal%>";
-			limit=24;
-			currentPage=1;
-
-		}); 
-		$(".locals").click(function(){
-			$(".listSale").html("");
-			scrollSelectList(24,1,$(this).siblings().val());
-			local=$(this).siblings().text();
-			limit=24;
-			currentPage=1;
-		
-		}); 
-		
-
-		
-		
-			<%if(dList.size()>=16){%>
 				
 				$("#wrapper").mouseover(function(){ 
 					$("#wrapper").scroll(function(){
@@ -287,10 +292,12 @@ ul {
 								check=false;
 							}
 						}
-					}).css({"overflow":"scroll","height":"1280px"});;
-			 	}); 
-			<%}%>
+					});
+			 	}).css({"overflow":"scroll","height":"1280px"}); 
+		
 		});
+		
+		
 		
 		function scrollSelectList(li,curr,local){
 			
@@ -307,6 +314,7 @@ ul {
 				    			var onclick = "location.href='<%=request.getContextPath()%>/detail.de?dealNo="+saleList.dList[i].dealNo+"'";
 				    			var title = saleList.dList[i].dealTitle;
 				    			var price = saleList.dList[i].price;
+				    			var local  =saleList.dList[i].dealLocal;
 				    			var $salImg = $("<img>");
 				    			var $imgFrame=$("<div>");
 				    			var $dealStatus=$("<div>");
@@ -323,8 +331,9 @@ ul {
 				    			}
 				    			$imgFrame.append($dealStatus);
 				    			$imgFrame.attr("class","imgFrame");
-				    			$listFooter.html("<div>"+title+"</div><div>"+price+"원</div>");
 				    			$listFooter.attr("class","listFooter");
+				    			$listFooter.html("<div>"+title+"</div><div>"+price+"원</div><div>"+local+"</div>");
+				    			
 				    			$sale.html($imgFrame);
 				    			$sale.append($listFooter);
 				    			$sale.attr({"class":"sale","onclick":onclick}).mouseenter(function(){
@@ -349,6 +358,7 @@ ul {
 			    	
 			}); 
 		}
+		
 		
 	
 	</script>

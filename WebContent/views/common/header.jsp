@@ -1,18 +1,17 @@
 
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="member.model.vo.Member"%>
-
+<%@page import="java.util.ArrayList"%>
+<%@page import="deal.model.vo.Category1"%>
 <%
 
 String mMsg =(String)session.getAttribute("mMsg");
 String msg =(String)request.getAttribute("msg");
 Member loginUser = (Member)session.getAttribute("loginUser");
 String encPwd =(String)request.getAttribute("encPwd"); 
-Member member = (Member)session.getAttribute("member");
-if(loginUser!=null && member!=null){
-	loginUser =member;
-} 
+ArrayList<Category1> c1List = (ArrayList<Category1>)request.getAttribute("c1List");
 %>
 <!DOCTYPE html>
 <html>
@@ -162,7 +161,7 @@ header article{
 .menu>ul{
 	width:100%;
 	height: 100%;
-		list-style: none;
+	list-style: none;
 }
 .menu>ul>li{
 
@@ -172,7 +171,6 @@ header article{
     font-size: 18px;
     color: darkgreen;
     font-weight: bolder; 
-
     text-align: center;
     position: relative;
 }
@@ -185,21 +183,53 @@ header article{
 	display: inline-block;
 	height: 100%;
 	width:10%;
+	position: absolute;
+	
 	}
 	 .menu>ul>li>div:nth-child(2){
 	display: inline-block;
 	height: 100%;
 	width:35%;
 	position: absolute;
-top:0;
+	top:0;
+	left:155px;
 
 	}
 
 .categoryImg{
 	height: 100%;
+	position: relative;
 }
 #logout:hover{
 	cursor: pointer;
+}
+.cateListWrapper{
+	position:absolute;
+	width:180px;
+	height:600px;
+	background:rgba(0,0,0,0.7);
+	left:100px;
+	top:40px;
+	z-index: 5;
+	display:none;
+	position: relative;
+}
+.cateListWrapper ul li{
+	padding:25px 0 25px 0;
+	width:100%;
+	color:white;
+	list-style: none;
+	
+	
+}
+.categorydept2{
+	position:absolute;
+	background:rgba(0,0,0,0.7);
+	width:180px;
+	top:0;
+	left:180px;
+	display: none;
+
 }
 
 </style>
@@ -317,7 +347,51 @@ top:0;
 
         <ul>
             <li id="category">
-            <div><img src="<%=request.getContextPath()%>/images/list.png" class="categoryImg"></div><div>카테고리</div></li>
+            <div>
+            <img src="<%=request.getContextPath()%>/images/list.png" class="categoryImg">
+            </div>
+            <div>카테고리</div>
+          
+            
+        <div class="cateListWrapper">
+	            	<ul id="categorydept1">
+	                
+	                     <li>
+	                     <input type="hidden" class="c1No" name ="c1No" value="1">
+	                     <div class="c1Name">생활가전</div>
+	                      <ul class="categorydept2"></ul>
+	                     </li>
+	                         <li>
+	                     <input type="hidden" class="c1No" name ="c1No" value="2">
+	                     <div class="c1Name">주방가전</div>
+	                     <ul class="categorydept2"></ul>
+	                     </li>
+	                         <li>
+	                     <input type="hidden" class="c1No" name ="c1No" value="3">
+	                     <div class="c1Name">IT가전</div>
+	                     <ul class="categorydept2"></ul>
+	                     </li>
+	                         <li>
+	                     <input type="hidden" class="c1No" name ="c1No" value="4">
+	                     <div class="c1Name">멀티미디어</div>
+	                     <ul class="categorydept2"></ul>
+	                     </li>
+	                         <li>
+	                     <input type="hidden" class="c1No" name ="c1No" value="5">
+	                     <div class="c1Name">계절가전</div>
+	                     <ul class="categorydept2"></ul>
+	                     </li>
+	                         <li>
+	                     <input type="hidden" class="c1No" name ="c1No" value="6">
+	                     <div class="c1Name">기타</div>
+	                     <ul class="categorydept2"></ul>
+	                     </li>
+	              		  
+	               </ul>
+            </div>
+            	
+            </li>
+           
             <li id="sale">물건팔기</li>
             <li id="communtiy">커뮤니티</li>
             <li id="mypage">마이페이지</li>
@@ -354,6 +428,7 @@ top:0;
 				location.href="<%=request.getContextPath()%>/logout.me";
 			});
 			
+
 			function addNoti(){
 				var count = $(".badge").attr("value","00");
 				$.ajax({
@@ -374,7 +449,68 @@ top:0;
 				
 		
 		<%}%>
+	 	$(".cateListWrapper").hide();
+		
+		$("#category").click(function(){
+			$(".cateListWrapper").show();
 			
+		});
+		
+		
+		$(".cateListWrapper").mouseleave(function(){
+			setTimeout(function(){
+				$(".cateListWrapper").hide();
+			},500);
+		});
+		
+		$(".c1Name").click(function(){
+			
+			var cno = $(this).prev().val(); 
+			console.log(cno);
+			$(".categorydept2").hide();
+			$(this).next().show();
+			$(".categorydept2").html("");
+				$.ajax({
+					url:"select2.cate",
+					data:{cno:cno},
+					type:"get",
+					dataType:"json",
+					success:function(result){
+								
+						
+					
+						$.each(result,function(i){
+							var $li = $("<li>");
+							var $cNo = $("<input>");
+							$li.text(result[i].cName);
+							$cNo.attr({"type":"hidden","value":result[i].cNo});
+							$(".categorydept2").append($li);
+							$(".categorydept2").append($cNo);
+							CategorySearch($li);
+						});
+							
+					}
+			   })
+			
+		
+		
+		});
+		$("#categorydept2").mouseover(function(){
+			$("#categorydept2").show();
+			
+		}); 
+			
+		function CategorySearch($category){
+			
+			$category.click(function(){
+
+			
+			var cName=$(this).text();
+			console.log(cName);
+ 			 location.href="<%=request.getContextPath()%>/searchCategory.de?cName="+cName; 
+			});
+			
+		}
 			
 		</script>
 </body>

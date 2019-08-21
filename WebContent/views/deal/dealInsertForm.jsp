@@ -3,7 +3,7 @@
 <%@page import="deal.model.vo.Category1"%>
 <%@page import="java.util.ArrayList"%>
 <%
-ArrayList<Category1> cList = (ArrayList<Category1>)request.getAttribute("c1List");
+/* ArrayList<Category1> c1List = (ArrayList<Category1>)request.getAttribute("c1List"); */
 %> 
 <!DOCTYPE html>
 <html lang="ko">
@@ -165,7 +165,7 @@ table {
                         <td>
                             <select id="dept1" name="dept1" required="required">
                                 <option selected value="0">선택</option>
-                                <%for(Category1 c1 : cList){ %>
+                                <%for(Category1 c1 : c1List){ %>
 								 <option value="<%=c1.getcNo()%>"><%=c1.getcName() %></option>		
 								<%} %>                           
                             </select>                   

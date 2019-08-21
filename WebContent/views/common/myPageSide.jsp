@@ -47,10 +47,6 @@ ul {
 	cursor: pointer;
 }
 
-#updateInfo {
-	font-weight: bolder;
-	color: black;
-}
 
 
 </style>
@@ -60,10 +56,13 @@ ul {
 
 	<aside>
 
+
 		<ul>
 			<li><h2 class="titleMypage">마이페이지</h2>
 			<li>
 			<li class="sideList" id="myInfo">
+
+	
 				<div id="updateInfo">정보 수정</div>
 			</li>
 			<li class="sideList pick">
@@ -82,11 +81,15 @@ ul {
 	</aside>
 
 	<script>
+		
 		$("#myInfo").click(function(){
 			location.href="<%=request.getContextPath()%>/pwdInputForm.me";
 		});
-		
-		
+
+		$(".pick").click(function(){
+			location.href="<%=request.getContextPath()%>/selectPick.my";
+		})
+
 	</script>
 </body>
 </html>
